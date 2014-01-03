@@ -1,0 +1,7 @@
+{
+    // Debug
+    "debug": true,
+
+    // Attempt to enable growl if available
+    "enable_growl": true
+}
