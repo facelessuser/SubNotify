@@ -4,9 +4,9 @@ from os import makedirs
 import sublime
 import sublime_plugin
 try:
-    from Pywin32.setup import win32setup
+    import Pywin32.setup
 except:
-    win32setup = lambda: log("Pywin32 not installed")
+    print("SubNotify: Pywin32 not installed")
 
 notify = None
 PLUGIN_SETTINGS = "sub_notify.sublime-settings"
@@ -76,8 +76,6 @@ def load_notify():
         import gntp
     except ImportError:
         sys.path.insert(0, join(sublime.packages_path(), "SubNotify", "modules"))
-
-    win32setup()
 
     from SubNotify.lib import notify
 
