@@ -91,6 +91,89 @@ def play_alert(sound=None):
 
 
 ###################################
+# OSX Notify
+###################################
+NOTIFY_OSX = None
+NOTIFY_OSX_SENDER = "com.apple.Terminal"
+NOTIFY_OSX_TERM = None
+
+
+def notify_osx_fallback(title, message, sound, fallback):
+    """
+    OSX notifications fallback (just sound)
+    """
+
+    # Fallback to wxpython notification
+    fallback(title, message, sound)
+
+
+NOTIFY_OSX = notify_osx_fallback
+
+if _PLATFORM == "osx":
+    try:
+        from subprocess import call
+
+        def notify_osx_call(title, message, sound, fallback):
+            """
+            OSX notifications
+            """
+
+            try:
+                assert(NOTIFY_OSX_TERM is not None and exists(NOTIFY_OSX_TERM))
+                # Show Notification here
+                params = [NOTIFY_OSX_TERM, "-title", NOTIFY_OSX_TITLE]
+                if message is not None:
+                    params += ["-message", message]
+                if title is not None:
+                    params += ["-subtitle", title]
+                if NOTIFY_OSX_SENDER is not None:
+                    params += ["-sender", NOTIFY_OSX_SENDER]
+                    params += ["-activate", NOTIFY_OSX_SENDER]
+                call(params)
+
+                if sound:
+                    # Play sound if desired
+                    play_alert()
+            except:
+                print(traceback.format_exc())
+                # Fallback to wxpython notification
+                fallback(title, message, sound)
+    except:
+        print(traceback.format_exc())
+        notify_osx_call = None
+        print("no terminal-notifier")
+else:
+    print(traceback.format_exc())
+    notify_osx_call = None
+    print("no terminal-notifier")
+
+
+def setup_notify_osx(app_name, term_notifier, sender):
+    """
+    Setup Notify OSX
+    """
+
+    global NOTIFY_OSX_SENDER
+    global NOTIFY_OSX_TERM
+    global NOTIFY_OSX_TITLE
+    global notify_osx_call
+    global NOTIFY_OSX
+    NOTIFY_OSX_TITLE = app_name
+
+    if notify_osx_call is not None:
+        try:
+            assert(term_notifier is not None and exists(term_notifier))
+            NOTIFY_OSX_TERM = term_notifier
+            if sender is not None:
+                NOTIFY_OSX_SENDER = sender
+        except:
+            print(traceback.format_exc())
+            notify_osx_call = None
+    if notify_osx_call is not None:
+        NOTIFY_OSX = notify_osx_call
+
+
+###################################
 # Ubuntu Notify OSD
 ###################################
 NOTIFY_OSD_ICON = None
@@ -130,7 +213,7 @@ if _PLATFORM == "linux":
                     play_alert()
             except:
                 # Fallback to wxpython notification
-                fallback(title, description, sound)
+                fallback(title, message, sound)
 
     except:
         notify_osd_call = None
@@ -157,7 +240,7 @@ def setup_notify_osd(app_name):
 
 
 ###################################
-# Windows and OSX Growl Support
+# Growl Support
 ###################################
 GROWL_ICON = None
 GROWL_ENABLED = False
@@ -176,36 +259,32 @@ def notify_growl_fallback(note_type, title, description, sound, fallback):
 NOTIFY_GROWL = notify_growl_fallback
 
 
-if _PLATFORM in ["windows", "osx"]:
-    try:
-        import gntp.notifier
+try:
+    import gntp.notifier
 
-        def notify_growl_call(note_type, title, description, sound, fallback):
-            """
-            Send growl notification
-            """
+    def notify_growl_call(note_type, title, description, sound, fallback):
+        """
+        Send growl notification
+        """
 
-            try:
-                GROWL.notify(
-                    noteType=note_type,
-                    title=title,
-                    description=description,
-                    icon=GROWL_ICON,
-                    sticky=False,
-                    priority=1
-                )
+        try:
+            GROWL.notify(
+                noteType=note_type,
+                title=title,
+                description=description,
+                icon=GROWL_ICON,
+                sticky=False,
+                priority=1
+            )
 
-                if sound:
-                    # Play sound if desired
-                    play_alert()
-            except:
-                # Fallback to wxpython notification
-                fallback(title, description, sound)
-    except Exception as e:
-        print(traceback.format_exc())
-        notify_growl_call = None
-        print("no growl")
-else:
+            if sound:
+                # Play sound if desired
+                play_alert()
+        except:
+            # Fallback to wxpython notification
+            fallback(title, description, sound)
+except Exception as e:
+    print(traceback.format_exc())
     notify_growl_call = None
     print("no growl")
 
@@ -272,6 +351,7 @@ def notify_win_fallback(title, message, sound, icon, fallback):
 
     fallback(title, message, sound)
 
+
 NOTIFY_WIN = notify_win_fallback
 
 if _PLATFORM == "windows":
@@ -281,6 +361,9 @@ if _PLATFORM == "windows":
         import win32con
 
         class NotifyWin(object):
+            atom_name = None
+            window_handle = None
+
             def __init__(self, app_name, icon, tooltip=None):
                 """
                 Create the taskbar for the application and register it.
@@ -300,16 +383,14 @@ if _PLATFORM == "windows":
                 self.hinst = wc.hInstance = GetModuleHandle(None)
                 wc.lpszClassName = app_name
                 wc.lpfnWndProc = message_map  # could also specify a wndproc.
+                if NotifyWin.atom_name is not None:
+                    self._destroy_window()
+                    UnregisterClass(NotifyWin.atom_name, None)
+                    NotifyWin.atom_name = None
                 self.class_atom = RegisterClass(wc)
+                NotifyWin.atom_name = self.class_atom
 
-                # Create the Window.
-                style = win32con.WS_OVERLAPPED | win32con.WS_SYSMENU
-                self.hwnd = CreateWindow(
-                    self.class_atom, "Taskbar", style,
-                    0, 0, win32con.CW_USEDEFAULT, win32con.CW_USEDEFAULT,
-                    0, 0, self.hinst, None
-                )
-                UpdateWindow(self.hwnd)
+                self._create_window()
 
                 self.hicon = self.get_icon(icon)
 
@@ -340,7 +421,25 @@ if _PLATFORM == "windows":
                 try:
                     self._show_notification(title, msg, sound, icon)
                 except:
+                    print(traceback.format_exc())
                     fallback(title, msg, sound)
+
+            def _create_window(self):
+                # Create the Window.
+                style = win32con.WS_OVERLAPPED | win32con.WS_SYSMENU
+                self.hwnd = CreateWindow(
+                    self.class_atom, "Taskbar", style,
+                    0, 0, win32con.CW_USEDEFAULT, win32con.CW_USEDEFAULT,
+                    0, 0, self.hinst, None
+                )
+                NotifyWin.window_handle = self.hwnd
+                UpdateWindow(self.hwnd)
+
+            def _destroy_window(self):
+                if NotifyWin.window_handle:
+                    DestroyWindow(NotifyWin.window_handle)
+                    NotifyWin.window_handle = None
+                    self.hwnd = None
 
             def _show_notification(self, title, msg, sound, icon):
                 """
@@ -412,6 +511,7 @@ if _PLATFORM == "windows":
                 PostQuitMessage(0)
 
     except:
+        print(traceback.format_exc())
         NotifyWin = None
         print("no win notify")
 else:
@@ -455,7 +555,7 @@ Notify = NotifyFallback
 ###################################
 # Setup Notifications
 ###################################
-def set_app_icon(app_name, png=None, icon=None, pth=None):
+def set_app_icon(app_name, png=None, icon=None):
     """
     Set app icon for growl
     """
@@ -468,37 +568,30 @@ def set_app_icon(app_name, png=None, icon=None, pth=None):
     NOTIFY_WIN_ICON = None
     NOTIFY_OSD_ICON = None
 
-    if png is not None:
-        GROWL_ICON = png
-
     try:
-        assert(png is not None and pth is not None and exists(pth))
-        NOTIFY_OSD_ICON = join(pth, app_name + "-notify.png")
-        if not exists(NOTIFY_OSD_ICON):
-            with open(NOTIFY_OSD_ICON, "wb") as f:
-                f.write(png)
+        assert(png is not None and exists(png))
+        NOTIFY_OSD_ICON = png
+        with open(png, "rb") as f:
+            GROWL_ICON = f.read()
     except:
-        NOTIFY_OSD_ICON = None
         pass
 
     try:
-        assert(icon is not None and pth is not None and exists(pth))
-        NOTIFY_WIN_ICON = join(pth, app_name + "-notify.ico")
-        if not exists(NOTIFY_WIN_ICON):
-            with open(NOTIFY_WIN_ICON, "wb") as f:
-                f.write(icon)
+        assert(icon is not None and exists(icon))
+        NOTIFY_WIN_ICON = icon
     except:
-        NOTIFY_WIN_ICON = None
+        pass
 
 
-def setup_notifications(app_name, png=None, icon=None, config_path=None):
+def setup_notifications(app_name, png=None, icon=None, term_notify=(None, None)):
     """
     Setup notifications for all platforms
     """
 
-    set_app_icon(app_name, png, icon, config_path)
+    set_app_icon(app_name, png, icon)
     setup_notify_growl(app_name)
     setup_notify_osd(app_name)
+    setup_notify_osx(app_name, term_notify[0], term_notify[1])
     setup_noitfy_win(app_name, NOTIFY_WIN_ICON)
 
 
@@ -513,6 +606,8 @@ def info(title, message="", sound=False):
     default_notify = lambda title, message, sound: Notify(title, message, sound=sound).Show()
     if has_growl() and GROWL_ENABLED:
         NOTIFY_GROWL("Info", title, message, sound, default_notify)
+    elif _PLATFORM == "osx":
+        NOTIFY_OSX(title, message, sound, default_notify)
     elif _PLATFORM == "linux":
         NOTIFY_OSD(title, message, sound, default_notify)
     elif _PLATFORM == "windows":
@@ -529,6 +624,8 @@ def error(title, message, sound=False):
     default_notify = lambda title, message, sound: Notify(title, message, sound=sound).Show()
     if has_growl() and GROWL_ENABLED:
         NOTIFY_GROWL("Error", title, message, sound, default_notify)
+    elif _PLATFORM == "osx":
+        NOTIFY_OSX(title, message, sound, default_notify)
     elif _PLATFORM == "linux":
         NOTIFY_OSD(title, message, sound, default_notify)
     elif _PLATFORM == "windows":
@@ -545,6 +642,8 @@ def warning(title, message, sound=False):
     default_notify = lambda title, message, sound: Notify(title, message, sound=sound).Show()
     if has_growl() and GROWL_ENABLED:
         NOTIFY_GROWL("Warning", title, message, sound, default_notify)
+    elif _PLATFORM == "osx":
+        NOTIFY_OSX(title, message, sound, default_notify)
     elif _PLATFORM == "linux":
         NOTIFY_OSD(title, message, sound, default_notify)
     elif _PLATFORM == "windows":

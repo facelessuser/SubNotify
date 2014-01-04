@@ -3,7 +3,10 @@ from os.path import join, exists
 from os import makedirs
 import sublime
 import sublime_plugin
-import SubNotify.icons as icons
+try:
+    from Pywin32.setup import win32setup
+except:
+    win32setup = lambda: log("Pywin32 not installed")
 
 notify = None
 PLUGIN_SETTINGS = "sub_notify.sublime-settings"
@@ -11,7 +14,7 @@ SUB_NOTIFY_READY = False
 
 
 ######################
-# Logging
+# Settings
 ######################
 def get_settings():
     return sublime.load_settings(PLUGIN_SETTINGS)
@@ -35,24 +38,22 @@ def debug_log(s):
 ######################
 # Commands
 ######################
-class SubNotifyInfoCommand(sublime_plugin.ApplicationCommand):
-    def run(self, title="", msg="", sound=False):
-        notify.info(title, msg, sound)
-
-
-class SubNotifyWarningCommand(sublime_plugin.ApplicationCommand):
-    def run(self, title="", msg="", sound=False):
-        notify.warning(title, msg, sound)
-
-
-class SubNotifyErrorCommand(sublime_plugin.ApplicationCommand):
-    def run(self, title="", msg="", sound=False):
-        notify.error(title, msg, sound)
+class SubNotifyCommand(sublime_plugin.ApplicationCommand):
+    def run(self, title="", msg="", sound=False, level="info"):
+        if SubNotifyIsReadyCommand.is_ready():
+            if level == "error":
+                notify.error(title, msg, sound)
+            elif level == "warning":
+                notify.warning(title, msg, sound)
+            else:
+                notify.info(title, msg, sound)
+        else:
+            log("Not ready for messages yet!")
 
 
 class SubNotifyTestCommand(sublime_plugin.ApplicationCommand):
     def run(self):
-        sublime.run_command("sub_notify_info", {"title": "SubNotify", "msg": "Debug test popup!"})
+        sublime.run_command("sub_notify", {"title": "SubNotify", "msg": "Debug test popup!", "sound": True})
 
 
 class SubNotifyIsReadyCommand(sublime_plugin.ApplicationCommand):
@@ -72,10 +73,23 @@ class SubNotifyIsReadyCommand(sublime_plugin.ApplicationCommand):
 def load_notify():
     global notify
     try:
-        __import__("gntp")
+        import gntp
     except ImportError:
         sys.path.insert(0, join(sublime.packages_path(), "SubNotify", "modules"))
+
+    win32setup()
+
     from SubNotify.lib import notify
+
+
+def enable_notifications():
+    settings = get_settings()
+
+    notify.enable_growl(settings.get("enable_growl", False))
+
+    # Setup reload
+    settings.clear_on_change('reload')
+    settings.add_on_change('reload', enable_notifications)
 
 
 def plugin_loaded():
@@ -84,16 +98,25 @@ def plugin_loaded():
     # Ensure gntp can be found if not already in the path
     load_notify()
 
-    # # Create icon folder for systems that need a icon from path
-    # user = join(sublime.packages_path(), "User", "SubNotify")
-    # if not exists(user):
-    #     makedirs(user)
+    # Create icon folder for systems that need a icon from path
+    graphics = join(sublime.packages_path(), "SubNotify", "graphics")
 
     # Setup Notify
-    notify.setup_notifications("Sublime Text", icons.notify_png.GetData())
+    notify.setup_notifications(
+        "Sublime Text",
+        join(graphics, "SublimeBubble.png"),
+        join(graphics, "SublimeBubble.ico"),
+        (
+            get_settings().get(
+                "terminal_notifier_path",
+                "/Library/Ruby/Gems/2.0.0/gems/terminal-notifier-1.5.1/bin/terminal-notifier"
+            ),
+            "com.sublimetext.3"
+        )
+    )
 
     # Try to enable notification systems
-    notify.enable_growl(get_settings().get("enable_growl", False))
+    enable_notifications()
 
     # Annouce that subnotify is ready
     SUB_NOTIFY_READY = True
