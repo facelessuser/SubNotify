@@ -143,7 +143,6 @@ if _PLATFORM == "osx":
         notify_osx_call = None
         print("no terminal-notifier")
 else:
-    print(traceback.format_exc())
     notify_osx_call = None
     print("no terminal-notifier")
 
@@ -307,7 +306,6 @@ def setup_notify_growl(app_name):
 
         GROWL.register()
     except:
-        print(traceback.format_exc())
         GROWL = None
 
     if GROWL is not None:
