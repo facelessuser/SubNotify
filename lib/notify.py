@@ -111,8 +111,6 @@ NOTIFY_OSX = notify_osx_fallback
 
 if _PLATFORM == "osx":
     try:
-        from subprocess import call
-
         def notify_osx_call(title, message, sound, fallback):
             """
             OSX notifications
@@ -129,7 +127,7 @@ if _PLATFORM == "osx":
                 if NOTIFY_OSX_SENDER is not None:
                     params += ["-sender", NOTIFY_OSX_SENDER]
                     params += ["-activate", NOTIFY_OSX_SENDER]
-                call(params)
+                subprocess.call(params)
 
                 if sound:
                     # Play sound if desired
@@ -192,7 +190,7 @@ NOTIFY_OSD = notify_osd_fallback
 
 if _PLATFORM == "linux":
     try:
-        import pynotify
+        assert(subprocess.call(["notify-send", "--version"]) == 0)
 
         def notify_osd_call(title, message, sound, fallback):
             """
@@ -200,12 +198,12 @@ if _PLATFORM == "linux":
             """
 
             try:
-                notice = pynotify.Notification(
-                    title,
-                    message,
-                    NOTIFY_OSD_ICON
-                )
-                notice.show()
+                params = ["notify-send", "-a", NOTIFY_OSD_APP, "-t", "3000"]
+                if NOTIFY_OSD_ICON is not None:
+                    params += ["-i", NOTIFY_OSD_ICON]
+                if message is not None:
+                    params += [title, message]
+                subprocess.call(params)
 
                 if sound:
                     # Play sound if desired
@@ -228,13 +226,10 @@ def setup_notify_osd(app_name):
     """
 
     global NOTIFY_OSD
+    global NOTIFY_OSD_APP
     global notify_osd_call
     if notify_osd_call is not None:
-        try:
-            pynotify.init(app_name)
-        except:
-            notify_osd_call = None
-    if notify_osd_call is not None:
+        NOTIFY_OSD_APP = app_name
         NOTIFY_OSD = notify_osd_call
 
 
