@@ -3,6 +3,7 @@ SubNotify
 
 Sublime Text notification plugin (Windows|OSX|Linux)
 
+<img src="https://dl.dropboxusercontent.com/u/342698/SubNotify/Examples.png" border="0"/>
 
 # Features
 
