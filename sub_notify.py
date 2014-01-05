@@ -1,16 +1,34 @@
+"""
+SubNotify
+
+Copyright (c) 2013 Isaac Muse <isaacmuse@gmail.com>
+License: MIT
+"""
 import sys
-from os.path import join, exists
+from os.path import join, exists, dirname
 from os import makedirs
 import sublime
 import sublime_plugin
+
+PLUGIN_SETTINGS = "sub_notify.sublime-settings"
+SUB_NOTIFY_READY = False
+
+######################
+# Special Imports
+######################
+# Ensure pywin32 is found in path
 try:
     import Pywin32.setup
 except:
     print("SubNotify: Pywin32 not installed")
 
-notify = None
-PLUGIN_SETTINGS = "sub_notify.sublime-settings"
-SUB_NOTIFY_READY = False
+# Ensure gntp is found in path
+PACKAGE_PATH = dirname(__file__)
+GNTP_PATH = join(PACKAGE_PATH, "modules")
+if GNTP_PATH not in sys.path:
+    sys.path.append(GNTP_PATH)
+
+from SubNotify.lib import notify
 
 
 ######################
@@ -70,16 +88,6 @@ class SubNotifyIsReadyCommand(sublime_plugin.ApplicationCommand):
 ######################
 # Setup
 ######################
-def load_notify():
-    global notify
-    try:
-        import gntp
-    except ImportError:
-        sys.path.insert(0, join(sublime.packages_path(), "SubNotify", "modules"))
-
-    from SubNotify.lib import notify
-
-
 def enable_notifications():
     settings = get_settings()
 
@@ -92,9 +100,6 @@ def enable_notifications():
 
 def plugin_loaded():
     global SUB_NOTIFY_READY
-
-    # Ensure gntp can be found if not already in the path
-    load_notify()
 
     # Create icon folder for systems that need a icon from path
     graphics = join(sublime.packages_path(), "SubNotify", "graphics")
