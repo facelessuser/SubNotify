@@ -52,7 +52,7 @@ DEFAULT_NOTIFY = NotifyFallback
 ###################################
 # Notification Calls
 ###################################
-def info(title, message="", sound=False):
+def info(title, message, sound=False):
     """
     Info notification
     """

@@ -57,7 +57,7 @@ def debug_log(s):
 # Commands
 ######################
 class SubNotifyCommand(sublime_plugin.ApplicationCommand):
-    def run(self, title="", msg="", sound=False, level="info"):
+    def run(self, title, msg, sound=False, level="info"):
         if SubNotifyIsReadyCommand.is_ready():
             if level == "error":
                 notify.error(title, msg, sound)
@@ -88,14 +88,24 @@ class SubNotifyIsReadyCommand(sublime_plugin.ApplicationCommand):
 ######################
 # Setup
 ######################
-def enable_notifications():
+def enable_notifications(notice=False):
     settings = get_settings()
-
     notify.enable_growl(settings.get("enable_growl", False))
 
     # Setup reload
     settings.clear_on_change('reload')
-    settings.add_on_change('reload', enable_notifications)
+    settings.add_on_change('reload', lambda: enable_notifications(True))
+
+    # Show notice of reload and show message to confirm change took place
+    if notice:
+        sublime.run_command(
+            "sub_notify",
+            {
+                "title": "SubNotify",
+                "msg": "Settings reloaded."
+            }
+        )
+
 
 
 def plugin_loaded():

@@ -10,7 +10,9 @@ from os.path import exists
 
 __all__ = ["get_notify", "alert", "setup", "windows_icons"]
 
-NOTIFY = None
+
+class Options(object):
+    notify = None
 
 
 def alert(sound=None):
@@ -51,6 +53,7 @@ try:
     class NotifyWin(object):
         atom_name = None
         window_handle = None
+        taskbar_icon = None
 
         def __init__(self, app_name, icon, tooltip=None):
             """
@@ -88,6 +91,10 @@ try:
             else default to generic application icon from the OS.
             """
 
+            if NotifyWin.taskbar_icon is not None:
+                DestroyIcon(NotifyWin.taskbar_icon)
+                NotifyWin.taskbar_icon = None
+
             icon_flags = win32con.LR_LOADFROMFILE | win32con.LR_DEFAULTSIZE
             try:
                 hicon = LoadImage(
@@ -97,6 +104,7 @@ try:
                 )
             except:
                 hicon = LoadIcon(0, win32con.IDI_APPLICATION)
+            NotifyWin.taskbar_icon = hicon
 
             return hicon
 
@@ -204,10 +212,8 @@ except:
 
 def setup(app_name, icon, *args):
     """
-    Set app icon for windows
+    Setup
     """
-
-    global NOTIFY
 
     try:
         assert(icon is not None and exists(icon))
@@ -216,11 +222,11 @@ def setup(app_name, icon, *args):
         pass
 
     if NotifyWin is not None:
-        NOTIFY = NotifyWin(app_name + "Taskbar", icon, app_name).show_notification
+        Options.notify = NotifyWin(app_name + "Taskbar", icon, app_name).show_notification
 
 
 def get_notify():
-    return NOTIFY
+    return Options.notify
 
 
-NOTIFY = notify_win_fallback
+Options.notify = notify_win_fallback
