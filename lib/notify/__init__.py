@@ -7,7 +7,7 @@ License: MIT
 from __future__ import absolute_import
 import sys
 
-__all__ = ["info", "warning", "error", "setup_notifications"]
+__all__ = ["info", "warning", "error", "setup_notifications", "enable_growl", "has_growl"]
 
 if sys.platform.startswith('win'):
     _PLATFORM = "windows"

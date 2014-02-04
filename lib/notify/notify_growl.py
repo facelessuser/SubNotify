@@ -7,7 +7,7 @@ License: MIT
 import traceback
 from os.path import exists
 
-__all__ = ["get_growl", "enable_growl", "growl_enabled", "setup_growl"]
+__all__ = ["get_growl", "enable_growl", "growl_enabled", "setup_growl", "has_growl"]
 
 
 class Options(object):
@@ -21,6 +21,7 @@ def alert():
     pass
 
 
+@staticmethod
 def notify_growl_fallback(note_type, title, description, sound, fallback):
         """
         Growl failed to register so create a growl notify that simply
@@ -33,6 +34,7 @@ def notify_growl_fallback(note_type, title, description, sound, fallback):
 try:
     import gntp.notifier
 
+    @staticmethod
     def notify_growl_call(note_type, title, description, sound, fallback):
         """
         Send growl notification

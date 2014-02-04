@@ -72,6 +72,7 @@ def alert(sound=None):
     # del pool
 
 
+@staticmethod
 def notify_osx_fallback(title, message, sound, fallback):
     """
     OSX notifications fallback (just sound)
@@ -81,6 +82,7 @@ def notify_osx_fallback(title, message, sound, fallback):
     fallback(title, message, sound)
 
 
+@staticmethod
 def notify_osx_call(title, message, sound, fallback):
     """
     OSX notifications

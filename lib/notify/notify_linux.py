@@ -28,6 +28,7 @@ def alert(sound=None):
         subprocess.call(['/usr/bin/canberra-gtk-play', '--id', 'bell'])
 
 
+@staticmethod
 def notify_osd_fallback(title, message, sound, fallback):
     """
     Ubuntu Notify OSD notifications fallback (just sound)
@@ -40,6 +41,7 @@ def notify_osd_fallback(title, message, sound, fallback):
 try:
     assert(subprocess.call(["notify-send", "--version"]) == 0)
 
+    @staticmethod
     def notify_osd_call(title, message, sound, fallback):
         """
         Ubuntu Notify OSD notifications

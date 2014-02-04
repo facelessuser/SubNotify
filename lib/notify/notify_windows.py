@@ -13,6 +13,7 @@ __all__ = ["get_notify", "alert", "setup", "windows_icons"]
 
 class Options(object):
     notify = None
+    instance = None
 
 
 def alert(sound=None):
@@ -50,7 +51,7 @@ try:
     from win32gui import *
     import win32con
 
-    class NotifyWin(object):
+    class WindowsNotify(object):
         atom_name = None
         window_handle = None
         taskbar_icon = None
@@ -74,12 +75,12 @@ try:
             self.hinst = wc.hInstance = GetModuleHandle(None)
             wc.lpszClassName = app_name
             wc.lpfnWndProc = message_map  # could also specify a wndproc.
-            if NotifyWin.atom_name is not None:
+            if WindowsNotify.atom_name is not None:
                 self._destroy_window()
-                UnregisterClass(NotifyWin.atom_name, None)
-                NotifyWin.atom_name = None
+                UnregisterClass(WindowsNotify.atom_name, None)
+                WindowsNotify.atom_name = None
             self.class_atom = RegisterClass(wc)
-            NotifyWin.atom_name = self.class_atom
+            WindowsNotify.atom_name = self.class_atom
 
             self._create_window()
 
@@ -91,9 +92,9 @@ try:
             else default to generic application icon from the OS.
             """
 
-            if NotifyWin.taskbar_icon is not None:
-                DestroyIcon(NotifyWin.taskbar_icon)
-                NotifyWin.taskbar_icon = None
+            if WindowsNotify.taskbar_icon is not None:
+                DestroyIcon(WindowsNotify.taskbar_icon)
+                WindowsNotify.taskbar_icon = None
 
             icon_flags = win32con.LR_LOADFROMFILE | win32con.LR_DEFAULTSIZE
             try:
@@ -104,7 +105,7 @@ try:
                 )
             except:
                 hicon = LoadIcon(0, win32con.IDI_APPLICATION)
-            NotifyWin.taskbar_icon = hicon
+            WindowsNotify.taskbar_icon = hicon
 
             return hicon
 
@@ -128,13 +129,13 @@ try:
                 0, 0, win32con.CW_USEDEFAULT, win32con.CW_USEDEFAULT,
                 0, 0, self.hinst, None
             )
-            NotifyWin.window_handle = self.hwnd
+            WindowsNotify.window_handle = self.hwnd
             UpdateWindow(self.hwnd)
 
         def _destroy_window(self):
-            if NotifyWin.window_handle:
-                DestroyWindow(NotifyWin.window_handle)
-                NotifyWin.window_handle = None
+            if WindowsNotify.window_handle:
+                DestroyWindow(WindowsNotify.window_handle)
+                WindowsNotify.window_handle = None
                 self.hwnd = None
 
         def _show_notification(self, title, msg, sound, icon):
@@ -205,6 +206,12 @@ try:
 
             self.hide_icon()
             PostQuitMessage(0)
+
+
+    @staticmethod
+    def NotifyWin(title, msg, sound, icon, fallback):
+        Options.instance.show_notification(title, msg, sound, icon, fallback)
+
 except:
     NotifyWin = None
     print("no win notify")
@@ -219,10 +226,10 @@ def setup(app_name, icon, *args):
         assert(icon is not None and exists(icon))
     except:
         icon = None
-        pass
 
     if NotifyWin is not None:
-        Options.notify = NotifyWin(app_name + "Taskbar", icon, app_name).show_notification
+        Options.instance = WindowsNotify(app_name + "Taskbar", icon, app_name)
+        Options.notify = NotifyWin
 
 
 def get_notify():
