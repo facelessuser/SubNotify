@@ -5,8 +5,7 @@ Copyright (c) 2013 Isaac Muse <isaacmuse@gmail.com>
 License: MIT
 """
 import sys
-from os.path import join, exists, dirname
-from os import makedirs
+from os.path import join, dirname
 import sublime
 import sublime_plugin
 
@@ -18,7 +17,7 @@ SUB_NOTIFY_READY = False
 ######################
 # Ensure pywin32 is found in path
 try:
-    import Pywin32.setup
+    import Pywin32.setup  # noqa
 except:
     print("SubNotify: Pywin32 not installed")
 
@@ -105,7 +104,6 @@ def enable_notifications(notice=False):
                 "msg": "Settings reloaded."
             }
         )
-
 
 
 def plugin_loaded():
