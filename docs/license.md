@@ -1,26 +1,7 @@
-# SubNotify
-Sublime Text notification plugin (Windows|OSX|Linux)
+# License {: .doctitle}
 
-<img src="https://dl.dropboxusercontent.com/u/342698/SubNotify/Examples.png" border="0"/>
+---
 
-# Features
-
-- Growl support for OSX http://growl.info/.
-- Growl support for Windows http://www.growlforwindows.com/gfw/.
-- Growl support for Linux http://mattn.github.io/growl-for-linux/.
-- Native windows taskbar bubble notifications (requires Pywin32 - https://github.com/facelessuser/Pywin32).
-- OSX Notification Support via `terminal-notifier` https://github.com/alloy/terminal-notifier.
-- Ubuntu OSD support via `notify-send`.
-
-
-# Included 3rd Party Libraries
-
-- gntp https://github.com/kfdm/gntp/ (MIT License)
-
-# Documentation
-http://facelessuser.github.io/SubNotify/
-
-# License
 SubNotify is released under the MIT license.
 
 Copyright (c) 2013 - 2015 Isaac Muse <isaacmuse@gmail.com>
