@@ -4,7 +4,7 @@ System notifications for Sublime Text.
 
 ---
 
-## Overview
+# Overview
 Sublime Text notification plugin for (Windows|OSX|Linux).
 
 <img src="https://dl.dropboxusercontent.com/u/342698/SubNotify/Examples.png" border="0"/>
