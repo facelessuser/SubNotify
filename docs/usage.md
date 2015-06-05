@@ -1,10 +1,9 @@
 # User Guide {: .doctitle}
 Configuration and usage of SubNotify.
-{: .doctitle-info}
 
 ---
 
-# Using Subnotify in a Plugin
+## Using SubNotify in a Plugin
 
 sub_notify
 : 
@@ -27,7 +26,7 @@ sub_notify
             sublime.run_command("sub_notify", {"title": "SubNotify", "msg": "Debug test popup!", "sound": False})
     ```
 
-# Using Growl
+## Using Growl
 By default SubNotify will try and use:
 
 - Windows: Native taskbar notifications.
@@ -47,13 +46,13 @@ Next, in the settings file, enable the following setting:
     "enable_growl": true,
 ```
 
-# Windows Taskbar Notifications
+## Windows Taskbar Notifications
 Install Pywin32: https://github.com/facelessuser/Pywin32.  Make sure Growl is disabled in SubNotify.
 
-# Ubuntu OSD
+## Ubuntu OSD
 Ensure you have `notify-send` installed on your system.  It should be accessible via the command line.  Make sure Growl is disabled in SubNotify.
 
-# OSX Notification Center
+## OSX Notification Center
 Ensure you have terminal-notifier installed https://github.com/alloy/terminal-notifier.  The recommended way is to install via Ruby gem.  See the repo for more info.  If the path differs from the default in listed in the settings file, define the absolute path to terminal-notifier:
 
 ```javascript

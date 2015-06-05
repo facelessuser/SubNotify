@@ -1,31 +1,35 @@
 """
-notify_windows
+Notify windows.
 
-Copyright (c) 2013 Isaac Muse <isaacmuse@gmail.com>
+Copyright (c) 2013 - 2015 Isaac Muse <isaacmuse@gmail.com>
 License: MIT
 """
 import traceback
 import winsound
 from os.path import exists
 
-__all__ = ["get_notify", "alert", "setup", "windows_icons"]
+__all__ = ("get_notify", "alert", "setup", "windows_icons")
 
 
 class Options(object):
+
+    """Notification options."""
+
     notify = None
     instance = None
 
 
 def alert(sound=None):
-    """
-    Play an alert sound for the OS
-    """
+    """Play an alert sound for the OS."""
 
     snd = sound if sound is not None else "*"
     winsound.PlaySound(snd, winsound.SND_ALIAS)
 
 
 class WinNotifyLevel(object):
+
+    """Windows notification level."""
+
     ICON_INFORMATION = 0x01
     ICON_WARNING = 0x02
     ICON_ERROR = 0x04
@@ -39,9 +43,7 @@ windows_icons = {
 
 
 def notify_win_fallback(title, message, sound, icon, fallback):
-    """
-    Notify win calls the fallback
-    """
+    """Notify win calls the fallback."""
 
     fallback(title, message, sound)
 
@@ -52,6 +54,9 @@ try:
     import win32con
 
     class WindowsNotify(object):
+
+        """Windows notification class."""
+
         atom_name = None
         window_handle = None
         taskbar_icon = None
@@ -59,6 +64,7 @@ try:
         def __init__(self, app_name, icon, tooltip=None):
             """
             Create the taskbar for the application and register it.
+
             Show nothing by default until called.
             """
 
@@ -88,6 +94,8 @@ try:
 
         def get_icon(self, icon):
             """
+            Get icon.
+
             Try to load the given icon from the path given,
             else default to generic application icon from the OS.
             """
@@ -103,7 +111,7 @@ try:
                     win32con.IMAGE_ICON,
                     0, 0, icon_flags
                 )
-            except:
+            except Exception:
                 hicon = LoadIcon(0, win32con.IDI_APPLICATION)
             WindowsNotify.taskbar_icon = hicon
 
@@ -111,18 +119,20 @@ try:
 
         def show_notification(self, title, msg, sound, icon, fallback):
             """
-            Attemp to show notifications.  Provide fallback for consistency
-            with other notifyicatin methods.
+            Attemp to show notifications.
+
+            Provide fallback for consistency with other notifyicatin methods.
             """
 
             try:
                 self._show_notification(title, msg, sound, icon)
-            except:
+            except Exception:
                 print(traceback.format_exc())
                 fallback(title, msg, sound)
 
         def _create_window(self):
-            # Create the Window.
+            """Create the Window."""
+
             style = win32con.WS_OVERLAPPED | win32con.WS_SYSMENU
             self.hwnd = CreateWindow(
                 self.class_atom, "Taskbar", style,
@@ -133,15 +143,15 @@ try:
             UpdateWindow(self.hwnd)
 
         def _destroy_window(self):
+            """Destroy the window."""
+
             if WindowsNotify.window_handle:
                 DestroyWindow(WindowsNotify.window_handle)
                 WindowsNotify.window_handle = None
                 self.hwnd = None
 
         def _show_notification(self, title, msg, sound, icon):
-            """
-            Call windows API to show notification
-            """
+            """Call windows API to show notification."""
 
             icon_level = 0
             if icon & WinNotifyLevel.ICON_INFORMATION:
@@ -164,19 +174,14 @@ try:
                 alert()
 
         def OnTaskbarNotify(self, hwnd, msg, wparam, lparam):
-            """
-            When recieving the dismiss code for the notification,
-            hide the icon.
-            """
+            """When recieving the dismiss code for the notification, hide the icon."""
 
             if lparam == 1028:
                 self.hide_icon()
                 # Noification dismissed
 
         def show_icon(self):
-            """
-            Display the taskbar icon
-            """
+            """Display the taskbar icon."""
 
             flags = NIF_ICON | NIF_MESSAGE
             if self.tooltip is not None:
@@ -190,9 +195,7 @@ try:
             self.visible = True
 
         def hide_icon(self):
-            """
-            Hide icon
-            """
+            """Hide icon."""
 
             if self.visible:
                 nid = (self.hwnd, 0)
@@ -200,30 +203,28 @@ try:
             self.visible = False
 
         def OnDestroy(self, hwnd, msg, wparam, lparam):
-            """
-            Remove icon and notification
-            """
+            """Remove icon and notification."""
 
             self.hide_icon()
             PostQuitMessage(0)
 
     @staticmethod
     def NotifyWin(title, msg, sound, icon, fallback):
+        """Notify for windows."""
+
         Options.instance.show_notification(title, msg, sound, icon, fallback)
 
-except:
+except Exception:
     NotifyWin = None
     print("no win notify")
 
 
 def setup(app_name, icon, *args):
-    """
-    Setup
-    """
+    """Setup."""
 
     try:
         assert(icon is not None and exists(icon))
-    except:
+    except Exception:
         icon = None
 
     if NotifyWin is not None:
@@ -232,6 +233,8 @@ def setup(app_name, icon, *args):
 
 
 def get_notify():
+    """Get the notification."""
+
     return Options.notify
 
 

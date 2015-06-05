@@ -1,7 +1,7 @@
 """
-SubNotify
+SubNotify.
 
-Copyright (c) 2013 Isaac Muse <isaacmuse@gmail.com>
+Copyright (c) 2013 - 2015 Isaac Muse <isaacmuse@gmail.com>
 License: MIT
 """
 import sys
@@ -18,7 +18,7 @@ SUB_NOTIFY_READY = False
 # Ensure pywin32 is found in path
 try:
     import Pywin32.setup  # noqa
-except:
+except Exception:
     print("SubNotify: Pywin32 not installed")
 
 # Ensure gntp is found in path
@@ -34,6 +34,8 @@ from SubNotify.lib import notify
 # Settings
 ######################
 def get_settings():
+    """Get plugin settings."""
+
     return sublime.load_settings(PLUGIN_SETTINGS)
 
 
@@ -41,6 +43,8 @@ def get_settings():
 # Logging
 ######################
 def log(msg, status=False):
+    """Log messages."""
+
     string = str(msg)
     print("SubNotify: %s" % string)
     if status:
@@ -48,6 +52,8 @@ def log(msg, status=False):
 
 
 def debug_log(s):
+    """Debug log messages."""
+
     if get_settings().get("debug", False):
         log(s)
 
@@ -56,7 +62,12 @@ def debug_log(s):
 # Commands
 ######################
 class SubNotifyCommand(sublime_plugin.ApplicationCommand):
+
+    """SubNotify message command."""
+
     def run(self, title, msg, sound=False, level="info"):
+        """Run the command."""
+
         if SubNotifyIsReadyCommand.is_ready():
             if level == "error":
                 notify.error(title, msg, sound)
@@ -69,16 +80,28 @@ class SubNotifyCommand(sublime_plugin.ApplicationCommand):
 
 
 class SubNotifyTestCommand(sublime_plugin.ApplicationCommand):
+
+    """SubNotify test command."""
+
     def run(self):
+        """Run the command."""
+
         sublime.run_command("sub_notify", {"title": "SubNotify", "msg": "Debug test popup!", "sound": True})
 
 
 class SubNotifyIsReadyCommand(sublime_plugin.ApplicationCommand):
+
+    """Command to check if command is ready."""
+
     @classmethod
     def is_ready(cls):
+        """Check if the command is ready."""
+
         return SUB_NOTIFY_READY
 
     def run(self):
+        """Run the command."""
+
         ready = SubNotifyIsReadyCommand.is_ready()
         if ready:
             log("Ready for messages!")
@@ -88,6 +111,8 @@ class SubNotifyIsReadyCommand(sublime_plugin.ApplicationCommand):
 # Setup
 ######################
 def enable_notifications(notice=False):
+    """Enable notifications."""
+
     settings = get_settings()
     notify.enable_growl(settings.get("enable_growl", False))
 
@@ -107,6 +132,8 @@ def enable_notifications(notice=False):
 
 
 def plugin_loaded():
+    """Setup plugin."""
+
     global SUB_NOTIFY_READY
 
     # Create icon folder for systems that need a icon from path

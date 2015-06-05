@@ -1,16 +1,16 @@
 """
-notify_osx
+Notify OSX.
 
-Copyright (c) 2013 Isaac Muse <isaacmuse@gmail.com>
+Copyright (c) 2013 - 2015 Isaac Muse <isaacmuse@gmail.com>
 License: MIT
 """
 import subprocess
 import traceback
 from os.path import exists
-from ctypes import *
+# from ctypes import *
 # import ctypes.util as util
 
-__all__ = ["get_notify", "alert", "setup"]
+__all__ = ("get_notify", "alert", "setup")
 
 # appkit = cdll.LoadLibrary(util.find_library('AppKit'))
 # cf = cdll.LoadLibrary(util.find_library('CoreFoundation'))
@@ -48,6 +48,9 @@ __all__ = ["get_notify", "alert", "setup"]
 
 
 class Options(object):
+
+    """Notification options."""
+
     notify = None
     sender = "com.apple.Terminal"
     terminal_notifier = None
@@ -55,9 +58,7 @@ class Options(object):
 
 
 def alert(sound=None):
-    """
-    Play an alert sound for the OS
-    """
+    """Play an alert sound for the OS."""
 
     # ObjC wrapper works fine outside of sublime, but not in
     # Resort to afplay as workaround
@@ -74,9 +75,7 @@ def alert(sound=None):
 
 @staticmethod
 def notify_osx_fallback(title, message, sound, fallback):
-    """
-    OSX notifications fallback (just sound)
-    """
+    """OSX notifications fallback (just sound)."""
 
     # Fallback to wxpython notification
     fallback(title, message, sound)
@@ -84,9 +83,7 @@ def notify_osx_fallback(title, message, sound, fallback):
 
 @staticmethod
 def notify_osx_call(title, message, sound, fallback):
-    """
-    OSX notifications
-    """
+    """OSX notifications."""
 
     try:
         assert(Options.terminal_notifier is not None and exists(Options.terminal_notifier))
@@ -106,16 +103,14 @@ def notify_osx_call(title, message, sound, fallback):
         # if sound:
         #     # Play sound if desired
         #     alert()
-    except:
+    except Exception:
         print(traceback.format_exc())
         # Fallback notification
         fallback(title, message, sound)
 
 
 def setup(app_name, icon, *args):
-    """
-    Setup
-    """
+    """Setup."""
 
     global notify_osx_call
     term_notify = None
@@ -133,7 +128,7 @@ def setup(app_name, icon, *args):
             Options.terminal_notifier = term_notify
             if sender is not None:
                 Options.sender = sender
-        except:
+        except Exception:
             print(traceback.format_exc())
             notify_osx_call = None
     if notify_osx_call is not None:
@@ -141,6 +136,8 @@ def setup(app_name, icon, *args):
 
 
 def get_notify():
+    """Get notification."""
+
     return Options.notify
 
 

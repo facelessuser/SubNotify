@@ -1,26 +1,27 @@
 """
-notify_linux
+Notify Linux.
 
-Copyright (c) 2013 Isaac Muse <isaacmuse@gmail.com>
+Copyright (c) 2013 - 2015 Isaac Muse <isaacmuse@gmail.com>
 License: MIT
 """
 import subprocess
 from os.path import exists
 import traceback
 
-__all__ = ["get_notify", "alert", "setup"]
+__all__ = ("get_notify", "alert", "setup")
 
 
 class Options(object):
+
+    """Notification options."""
+
     icon = None
     notify = None
     app_name = ""
 
 
 def alert(sound=None):
-    """
-    Play an alert sound for the OS
-    """
+    """Play an alert sound for the OS."""
 
     if exists('/usr/share/sounds/gnome/default/alerts/glass.ogg'):
         subprocess.call(['/usr/bin/canberra-gtk-play', '-f', '/usr/share/sounds/gnome/default/alerts/glass.ogg'])
@@ -30,9 +31,7 @@ def alert(sound=None):
 
 @staticmethod
 def notify_osd_fallback(title, message, sound, fallback):
-    """
-    Ubuntu Notify OSD notifications fallback (just sound)
-    """
+    """Ubuntu Notify OSD notifications fallback (just sound)."""
 
     # Fallback to wxpython notification
     fallback(title, message, sound)
@@ -43,9 +42,7 @@ try:
 
     @staticmethod
     def notify_osd_call(title, message, sound, fallback):
-        """
-        Ubuntu Notify OSD notifications
-        """
+        """Ubuntu Notify OSD notifications."""
 
         try:
             params = ["notify-send", "-a", Options.app_name, "-t", "3000"]
@@ -58,19 +55,17 @@ try:
             if sound:
                 # Play sound if desired
                 alert()
-        except:
+        except Exception:
             print(traceback.format_exc())
             # Fallback to wxpython notification
             fallback(title, message, sound)
-except:
+except Exception:
     notify_osd_call = None
     print("no notify osd")
 
 
 def setup_notify_osd(app_name):
-    """
-    Setup Notify OSD
-    """
+    """Setup Notify OSD."""
 
     global notify_osd_call
     if notify_osd_call is not None:
@@ -79,9 +74,7 @@ def setup_notify_osd(app_name):
 
 
 def setup(app_name, icon, *args):
-    """
-    Setup
-    """
+    """Setup."""
 
     global notify_osd_call
     Options.icon = None
@@ -89,7 +82,7 @@ def setup(app_name, icon, *args):
     try:
         assert(icon is not None and exists(icon))
         Options.icon = icon
-    except:
+    except Exception:
         pass
 
     if notify_osd_call is not None:
@@ -98,6 +91,8 @@ def setup(app_name, icon, *args):
 
 
 def get_notify():
+    """Get notification."""
+
     return Options.notify
 
 

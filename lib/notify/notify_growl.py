@@ -1,16 +1,19 @@
 """
-notify_growl
+Notify Growl.
 
-Copyright (c) 2013 Isaac Muse <isaacmuse@gmail.com>
+Copyright (c) 2013 - 2015 Isaac Muse <isaacmuse@gmail.com>
 License: MIT
 """
 import traceback
 from os.path import exists
 
-__all__ = ["get_growl", "enable_growl", "growl_enabled", "setup_growl", "has_growl"]
+__all__ = ("get_growl", "enable_growl", "growl_enabled", "setup_growl", "has_growl")
 
 
 class Options(object):
+
+    """Notification options."""
+
     icon = None
     enabled = False
     growl = None
@@ -18,17 +21,16 @@ class Options(object):
 
 
 def alert():
+    """Alert dummy function."""
+
     pass
 
 
 @staticmethod
 def notify_growl_fallback(note_type, title, description, sound, fallback):
-        """
-        Growl failed to register so create a growl notify that simply
-        calls the fallback
-        """
+    """Growl failed to register so create a growl notify that simply calls the fallback."""
 
-        fallback(title, description, sound)
+    fallback(title, description, sound)
 
 
 try:
@@ -36,9 +38,7 @@ try:
 
     @staticmethod
     def notify_growl_call(note_type, title, description, sound, fallback):
-        """
-        Send growl notification
-        """
+        """Send growl notification."""
 
         try:
             Options.growl.notify(
@@ -53,43 +53,35 @@ try:
             if sound:
                 # Play sound if desired
                 alert()
-        except:
+        except Exception:
             print(traceback.format_exc())
             # Fallback notification
             fallback(title, description, sound)
-except:
+except Exception:
     notify_growl_call = None
     print("no growl")
 
 
 def enable_growl(enable):
-    """
-    Enable/Disable growl
-    """
+    """Enable/Disable growl."""
 
     Options.enabled = enable and has_growl()
 
 
 def has_growl():
-    """
-    Return if growl is available
-    """
+    """Return if growl is available."""
 
     return Options.growl is not None
 
 
 def growl_enabled():
-    """
-    Return if growl is enabled
-    """
+    """Return if growl is enabled."""
 
     return has_growl() and Options.enabled
 
 
 def setup_growl(app_name, icon, alert_function):
-    """
-    Setup growl
-    """
+    """Setup growl."""
 
     global alert
     global notify_growl_call
@@ -101,7 +93,7 @@ def setup_growl(app_name, icon, alert_function):
         assert(icon is not None and exists(icon))
         with open(icon, "rb") as f:
             Options.icon = f.read()
-    except:
+    except Exception:
         pass
 
     try:
@@ -113,7 +105,7 @@ def setup_growl(app_name, icon, alert_function):
         )
 
         Options.growl.register()
-    except:
+    except Exception:
         print(traceback.format_exc())
         Options.growl = None
 
@@ -122,6 +114,8 @@ def setup_growl(app_name, icon, alert_function):
 
 
 def get_growl():
+    """Get growl."""
+
     return Options.notify
 
 

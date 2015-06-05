@@ -1,15 +1,14 @@
 # SubNotify {: .doctitle}
 System notifications for Sublime Text.
-{: .doctitle-info}
 
 ---
 
-# Overview
+## Overview
 Sublime Text notification plugin for (Windows|OSX|Linux).
 
 <img src="https://dl.dropboxusercontent.com/u/342698/SubNotify/Examples.png" border="0"/>
 
-# Features
+## Features
 
 - Growl support for OSX http://growl.info/.
 - Growl support for Windows http://www.growlforwindows.com/gfw/.
@@ -19,6 +18,6 @@ Sublime Text notification plugin for (Windows|OSX|Linux).
 - Ubuntu OSD support via `notify-send`.
 
 
-# Included 3rd Party Libraries
+## Included 3rd Party Libraries
 
 - gntp https://github.com/kfdm/gntp/ (MIT License)

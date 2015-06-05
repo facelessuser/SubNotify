@@ -1,13 +1,13 @@
 """
-notify
+Notify.
 
-Copyright (c) 2013 Isaac Muse <isaacmuse@gmail.com>
+Copyright (c) 2013 - 2015 Isaac Muse <isaacmuse@gmail.com>
 License: MIT
 """
 from __future__ import absolute_import
 import sys
 
-__all__ = ["info", "warning", "error", "setup_notifications", "enable_growl", "has_growl"]
+__all__ = ("info", "warning", "error", "setup_notifications", "enable_growl", "has_growl")
 
 if sys.platform.startswith('win'):
     _PLATFORM = "windows"
@@ -30,17 +30,16 @@ from .notify_growl import *
 # Fallback Notifications
 ###################################
 class NotifyFallback(object):
+
+    """Fallback class."""
+
     def __init__(self, *args, **kwargs):
-        """
-        Init class
-        """
+        """Init class."""
 
         self.sound = kwargs.get("sound", False)
 
     def Show(self):
-        """
-        Fallback just plays an alert
-        """
+        """Fallback just plays an alert."""
 
         if self.sound:
             alert()
@@ -53,34 +52,30 @@ DEFAULT_NOTIFY = NotifyFallback
 # Notification Calls
 ###################################
 def info(title, message, sound=False):
-    """
-    Info notification
-    """
+    """Info notification."""
 
     send_notify(title, message, sound, "Info")
 
 
 def error(title, message, sound=False):
-    """
-    Error notification
-    """
+    """Error notification."""
     send_notify(title, message, sound, "Error")
 
 
 def warning(title, message, sound=False):
-    """
-    Warning notification
-    """
+    """Warning notification."""
 
     send_notify(title, message, sound, "Warning")
 
 
 def send_notify(title, message, sound, level):
-    """
-    Send notification
-    """
+    """Send notification."""
 
-    default_notify = lambda title, message, sound: DEFAULT_NOTIFY(title, message, sound=sound).Show()
+    def default_notify(title, message, sound):
+        """Default fallback notify."""
+
+        DEFAULT_NOTIFY(title, message, sound=sound).Show()
+
     notify = get_notify()
     growl = get_growl()
     if growl_enabled():
@@ -97,9 +92,7 @@ def send_notify(title, message, sound, level):
 # Setup Notifications
 ###################################
 def setup_notifications(app_name, png=None, icon=None, term_notify=(None, None)):
-    """
-    Setup notifications for all platforms
-    """
+    """Setup notifications for all platforms."""
 
     setup_growl(app_name, png, alert)
     setup(
