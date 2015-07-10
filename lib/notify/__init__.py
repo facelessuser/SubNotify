@@ -4,10 +4,17 @@ Notify.
 Copyright (c) 2013 - 2015 Isaac Muse <isaacmuse@gmail.com>
 License: MIT
 """
+from __future__ import unicode_literals
 from __future__ import absolute_import
 import sys
+from .notify_growl import get_growl, enable_growl, growl_enabled, setup_growl, has_growl
 
-__all__ = ("info", "warning", "error", "setup_notifications", "enable_growl", "has_growl")
+PY3 = (3, 0) <= sys.version_info < (4, 0)
+
+if PY3:
+    binary_type = bytes  # noqa
+else:
+    binary_type = str
 
 if sys.platform.startswith('win'):
     _PLATFORM = "windows"
@@ -17,13 +24,13 @@ else:
     _PLATFORM = "linux"
 
 if _PLATFORM == "windows":
-    from .notify_windows import *
-if _PLATFORM == "osx":
-    from .notify_osx import *
-if _PLATFORM == "linux":
-    from .notify_linux import *
+    from .notify_windows import get_notify, alert, setup, windows_icons
+elif _PLATFORM == "osx":
+    from .notify_osx import get_notify, alert, setup
+elif _PLATFORM == "linux":
+    from .notify_linux import get_notify, alert, setup
 
-from .notify_growl import *
+__all__ = ("info", "warning", "error", "setup_notifications", "enable_growl", "has_growl")
 
 
 ###################################
@@ -71,6 +78,15 @@ def warning(title, message, sound=False):
 def send_notify(title, message, sound, level):
     """Send notification."""
 
+    if title is not None and isinstance(title, binary_type):
+        title = title.decode('utf-8')
+
+    if message is not None and isinstance(message, binary_type):
+        message = message.decode('utf-8')
+
+    if level is not None and isinstance(level, binary_type):
+        level = level.decode('utf-8')
+
     def default_notify(title, message, sound):
         """Default fallback notify."""
 
@@ -93,6 +109,12 @@ def send_notify(title, message, sound, level):
 ###################################
 def setup_notifications(app_name, png=None, icon=None, term_notify=(None, None)):
     """Setup notifications for all platforms."""
+
+    if icon is not None and isinstance(icon, binary_type):
+        icon = icon.decode('utf-8')
+
+    if isinstance(app_name, binary_type):
+        app_name = app_name.decode('utf-8')
 
     setup_growl(app_name, png, alert)
     setup(
