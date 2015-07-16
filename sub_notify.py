@@ -162,3 +162,9 @@ def plugin_loaded():
 
     if get_settings().get("debug", False):
         sublime.set_timeout(lambda: sublime.run_command("sub_notify_test"), 3000)
+
+
+def plugin_unloaded():
+    """Tear down plugin."""
+
+    notify.destroy_notifications()
