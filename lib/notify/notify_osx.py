@@ -53,7 +53,6 @@ else:
 
 
 class Options(object):
-
     """Notification options."""
 
     notify = None

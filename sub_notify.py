@@ -62,7 +62,6 @@ def debug_log(s):
 # Commands
 ######################
 class SubNotifyCommand(sublime_plugin.ApplicationCommand):
-
     """SubNotify message command."""
 
     def run(self, title, msg, sound=False, level="info"):
@@ -80,7 +79,6 @@ class SubNotifyCommand(sublime_plugin.ApplicationCommand):
 
 
 class SubNotifyTestCommand(sublime_plugin.ApplicationCommand):
-
     """SubNotify test command."""
 
     def run(self):
@@ -90,7 +88,6 @@ class SubNotifyTestCommand(sublime_plugin.ApplicationCommand):
 
 
 class SubNotifyIsReadyCommand(sublime_plugin.ApplicationCommand):
-
     """Command to check if command is ready."""
 
     @classmethod
