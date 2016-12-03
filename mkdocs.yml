@@ -1,7 +1,7 @@
 site_name: SubNotify Documentation
 repo_url: https://github.com/facelessuser/SubNotify
 site_description: System notifications for Sublime Text.
-copyright: Copyright &copy; 2013 - 2015 <a href="https://github.com/facelessuser">Isaac Muse</a>
+copyright: Copyright &copy; 2013 - 2016 <a href="https://github.com/facelessuser">Isaac Muse</a>
 pages:
   - About SubNotify: index.md
   - Installation: installation.md
@@ -26,3 +26,5 @@ markdown_extensions:
   - pymdownx.tasklist
   - pymdownx.progressbar
   - pymdownx.headeranchor
+extra_css:
+  - css/theme_custom.css
