@@ -1,13 +1,10 @@
 [
     {
-        "caption": "Preferences",
-        "mnemonic": "n",
         "id": "preferences",
         "children":
         [
             {
                 "caption": "Package Settings",
-                "mnemonic": "P",
                 "id": "package-settings",
                 "children":
                 [
@@ -29,7 +26,39 @@
                             {
                                 "command": "sub_notify_test",
                                 "caption": "Test SubNotify"
-                            }
+                            },
+                            { "caption": "-" },
+                            {
+                                "caption": "Changelog",
+                                "command": "sub_notify_changes"
+                            },
+                            {
+                                "caption": "Documentation",
+                                "command": "sub_notify_open_site",
+                                "args": {
+                                    "url": "http://facelessuser.github.io/SubNotify/"
+                                }
+                            },
+                            {
+                                "caption": "Quick Start Guide",
+                                "command": "sub_notify_doc",
+                                "args": {
+                                    "page": "${packages}/SubNotify/quickstart.md"
+                                }
+                            },
+                            { "caption": "-" },
+                            {
+                                "caption": "Support Info",
+                                "command": "sub_notify_support_info"
+                            },
+                            {
+                                "caption": "Issues",
+                                "command": "sub_notify_open_site",
+                                "args": {
+                                    "url": "https://github.com/facelessuser/SubNotify/issues"
+                                }
+                            },
+                            { "caption": "-" }
                         ]
                     }
                 ]
