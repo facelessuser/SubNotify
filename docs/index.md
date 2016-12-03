@@ -6,7 +6,7 @@ System notifications for Sublime Text.
 ## Overview
 Sublime Text notification plugin for (Windows|OSX|Linux).
 
-<img src="https://dl.dropboxusercontent.com/u/342698/SubNotify/Examples.png" border="0"/>
+![examples](images/Examples.png)
 
 ## Features
 
@@ -16,8 +16,3 @@ Sublime Text notification plugin for (Windows|OSX|Linux).
 - Native windows taskbar bubble notifications (requires Pywin32 - https://github.com/facelessuser/Pywin32).
 - OSX Notification Support via `terminal-notifier` https://github.com/alloy/terminal-notifier.
 - Ubuntu OSD support via `notify-send`.
-
-
-## Included 3rd Party Libraries
-
-- gntp https://github.com/kfdm/gntp/ (MIT License)

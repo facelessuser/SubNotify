@@ -1,9 +1,10 @@
 [![Unix Build Status][travis-image]][travis-link]
+[![Package Control Downloads][pc-image]][pc-link]
 ![License][license-image]
 # SubNotify
 Sublime Text notification plugin (Windows|OSX|Linux)
 
-<img src="https://dl.dropboxusercontent.com/u/342698/SubNotify/Examples.png" border="0"/>
+![Examples](docs/images/Examples.png)
 
 # Features
 
@@ -31,4 +32,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 [travis-image]: https://img.shields.io/travis/facelessuser/SubNotify/master.svg
 [travis-link]: https://travis-ci.org/facelessuser/SubNotify
+[pc-image]: https://img.shields.io/packagecontrol/dt/SubNotify.svg
+[pc-link]: https://packagecontrol.io/packages/SubNotify
 [license-image]: https://img.shields.io/badge/license-MIT-blue.svg
