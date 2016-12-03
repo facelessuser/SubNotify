@@ -4,7 +4,7 @@ SubNotify.
 Copyright (c) 2013 - 2016 Isaac Muse <isaacmuse@gmail.com>
 License: MIT
 """
-from os.path import join, dirname
+import os
 import sublime
 import sublime_plugin
 from SubNotify.lib import notify
@@ -117,13 +117,13 @@ def plugin_loaded():
     global SUB_NOTIFY_READY
 
     # Create icon folder for systems that need a icon from path
-    graphics = join(sublime.packages_path(), "SubNotify", "graphics")
+    graphics = os.path.join(sublime.packages_path(), "SubNotify", "graphics")
 
     # Setup Notify
     notify.setup_notifications(
         "Sublime Text",
-        join(graphics, "SublimeBubble.png"),
-        join(graphics, "SublimeBubble.ico"),
+        os.path.join(graphics, "SublimeBubble.png"),
+        os.path.join(graphics, "SublimeBubble.ico"),
         (
             get_settings().get(
                 "terminal_notifier_path",
