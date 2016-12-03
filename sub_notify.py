@@ -4,30 +4,13 @@ SubNotify.
 Copyright (c) 2013 - 2015 Isaac Muse <isaacmuse@gmail.com>
 License: MIT
 """
-import sys
 from os.path import join, dirname
 import sublime
 import sublime_plugin
+from SubNotify.lib import notify
 
 PLUGIN_SETTINGS = "sub_notify.sublime-settings"
 SUB_NOTIFY_READY = False
-
-######################
-# Special Imports
-######################
-# Ensure pywin32 is found in path
-try:
-    import Pywin32.setup  # noqa
-except Exception:
-    print("SubNotify: Pywin32 not installed")
-
-# Ensure gntp is found in path
-PACKAGE_PATH = dirname(__file__)
-GNTP_PATH = join(PACKAGE_PATH, "modules")
-if GNTP_PATH not in sys.path:
-    sys.path.append(GNTP_PATH)
-
-from SubNotify.lib import notify
 
 
 ######################
