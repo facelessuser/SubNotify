@@ -2,9 +2,10 @@
 [![Package Control Downloads][pc-image]][pc-link]
 ![License][license-image]
 # SubNotify
+
 Sublime Text notification plugin (Windows|OSX|Linux)
 
-![Examples](docs/images/Examples.png)
+![Examples](docs/src/markdown.images/Examples.png)
 
 # Features
 
@@ -17,12 +18,14 @@ Sublime Text notification plugin (Windows|OSX|Linux)
 
 
 # Documentation
+
 http://facelessuser.github.io/SubNotify/
 
 # License
+
 SubNotify is released under the MIT license.
 
-Copyright (c) 2013 - 2016 Isaac Muse <isaacmuse@gmail.com>
+Copyright (c) 2013 - 2017 Isaac Muse <isaacmuse@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

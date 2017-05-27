@@ -13,14 +13,12 @@
                         "children":
                         [
                             {
-                                "command": "open_file",
-                                "args": {"file": "${packages}/SubNotify/sub_notify.sublime-settings"},
-                                "caption": "Settings – Default"
-                            },
-                            {
-                                "command": "open_file",
-                                "args": {"file": "${packages}/User/sub_notify.sublime-settings"},
-                                "caption": "Settings – User"
+                                "command": "edit_settings", "args":
+                                {
+                                    "base_file": "${packages}/SubNotify/sub_notify.sublime-settings",
+                                    "default": "{\n\t$0\n}\n"
+                                },
+                                "caption": "Settings"
                             },
                             {"caption": "-"},
                             {

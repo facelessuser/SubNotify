@@ -1,7 +1,4 @@
-# User Guide {: .doctitle}
-Configuration and usage of SubNotify.
-
----
+# User Guide
 
 ## Using SubNotify in a Plugin
 
@@ -11,15 +8,16 @@ sub_notify
 
     **Parameters**:
 
-    | Parameter | Type | Description |
-    |-----------|------|-------------|
-    | title | string | Required notification title. |
-    | msg | string | Required notification message. |
-    | sound | bool | Optional parameter to enable a audible alert. Default is `False`. |
-    | level | string | Optional parameter to specify the notification level.  Available options are: `info`, `warning`, `error`.  Default is `info`. |
+    Parameter | Type    | Description
+    --------- | ------- | -----------
+    `title`     | string  | Required notification title.
+    `msg`       | string  | Required notification message.
+    `sound`     | boolean | Optional parameter to enable a audible alert. Default is `False`.
+    `level`     | string  | Optional parameter to specify the notification level.  Available options are: `info`, `warning`, `error`.  Default is `info`.
 
 
-    # Example
+    **Example**
+
     ```python
     class SubNotifyTestCommand(sublime_plugin.ApplicationCommand):
         def run(self):
@@ -27,6 +25,7 @@ sub_notify
     ```
 
 ## Tips and Tricks for Developers
+
 Often when I use SubNotify with a plugin, I make its use optional.  Depending on the situation, you can have notifications fall back to either status bar notification or a Sublime Text dialog, but regardless of the fallback option, the approach is the same.
 
 I usually start by first creating a dummy Notify object for when SubNotify is not available.  This way I can reference the same methods to check for availability regardless of whether SubNotify is installed or not.
@@ -73,9 +72,10 @@ That's it.  There are a number of approaches you can take.  This is just one.
 
 
 ## Using Growl
+
 To enable growl, first make sure Growl is installed on your system:
 
-- Growl support for OSX: http://growl.info/.
+- Growl support for macOS: http://growl.info/.
 - Growl support for Windows: http://www.growlforwindows.com/gfw/.
 - Growl support for Linux: http://mattn.github.io/growl-for-linux/.
 
@@ -87,6 +87,7 @@ Next, in the settings file, enable the following setting:
 ```
 
 ## Windows Taskbar Notifications
+
 No additional setup is needed.  Just make sure Growl is disabled in SubNotify via the settings file: `sub_notify.sublime-settings`.
 
 ```js
@@ -95,6 +96,7 @@ No additional setup is needed.  Just make sure Growl is disabled in SubNotify vi
 ```
 
 ## Ubuntu OSD
+
 Ensure you have `notify-send` installed on your system.  It should be accessible via the command line.  Make sure Growl is disabled in SubNotify via the settings file: `sub_notify.sublime-settings`.
 
 ```js
@@ -103,7 +105,8 @@ Ensure you have `notify-send` installed on your system.  It should be accessible
 ```
 
 ## Mac Notification Center
-Ensure you have [terminal-notifier](https://github.com/alloy/terminal-notifier) installed.  The recommended way is to install via Ruby gem, but there are other ways; see the [repo](https://github.com/alloy/terminal-notifier) for more info.
+
+Ensure you have [terminal-notifier][terminal-notifier] installed.  The recommended way is to install via Ruby gem, but there are other ways; see the [repository][terminal-notifier] for more info.
 
 You will have to update the terminal notifier path in the settings file as the internal default is set to the old ruby gem path for the version that was available at the time this documentation was written.  If you choose to install via another method, the path will also be different. The path should be defined as the absolute path to terminal-notifier.
 
@@ -121,3 +124,5 @@ Make sure Growl is disabled in SubNotify via the settings file: `sub_notify.subl
     // Attempt to enable growl if available
     "enable_growl": false,
 ```
+
+--8<-- "refs.md"
