@@ -1,3 +1,10 @@
+# SubNotify 1.4.1
+
+> Released June 2, 2017
+
+- **NEW**: Provide workaround for terminal-notifier not physically showing a popup even though notification center
+sees the notification.
+
 # SubNotify 1.4.0
 
 > Released May 27, 2017
