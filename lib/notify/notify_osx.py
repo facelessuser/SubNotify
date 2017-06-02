@@ -68,6 +68,7 @@ class Options(object):
         cls.sender = "com.apple.Terminal"
         cls.terminal_notifier = None
         cls.app_name = ""
+        cls.icon = None
 
 
 def alert(sound=None):
@@ -105,9 +106,11 @@ def notify_osx_call(title, message, sound, fallback):
             params += ["-message", message]
         if title is not None:
             params += ["-subtitle", title]
-        if Options.sender is not None:
-            params += ["-sender", Options.sender]
-            params += ["-activate", Options.sender]
+        if Options.icon is not None:
+            params += ['-appIcon', Options.icon]
+        # if Options.sender is not None:
+        #     params += ["-sender", Options.sender]
+        #     params += ["-activate", Options.sender]
         if sound:
             params += ["-sound", "Glass"]
         subprocess.call(params)
@@ -138,6 +141,12 @@ def setup(app_name, icon, *args):
             sender = sender.decode('utf-8')
 
     Options.app_name = app_name
+
+    try:
+        assert(icon is not None and exists(icon))
+        Options.icon = icon
+    except Exception:
+        pass
 
     try:
         assert(term_notify is not None and exists(term_notify))
