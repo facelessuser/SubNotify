@@ -111,19 +111,32 @@ def enable_notifications(notice=False):
         )
 
 
+def get_icon_files():
+    """Get icon files"""
+
+    platform = sublime.platform()
+    settings = get_settings()
+    png_name = 'SublimeText@2x.png' if settings.get('large_icons', platform in ['osx']) else 'SublimeText.png'
+    graphics = os.path.join(sublime.packages_path(), "SubNotify", "graphics")
+    png_path = os.path.join(graphics, png_name)
+    ico_path = os.path.join(graphics, "SublimeBubble.ico")
+
+    return png_path, ico_path
+
+
 def plugin_loaded():
     """Setup plugin."""
 
     global SUB_NOTIFY_READY
 
     # Create icon folder for systems that need a icon from path
-    graphics = os.path.join(sublime.packages_path(), "SubNotify", "graphics")
+    png_path, ico_path = get_icon_files()
 
     # Setup Notify
     notify.setup_notifications(
         "Sublime Text",
-        os.path.join(graphics, "SublimeBubble.png"),
-        os.path.join(graphics, "SublimeBubble.ico"),
+        png_path,
+        ico_path,
         (
             get_settings().get(
                 "terminal_notifier_path",

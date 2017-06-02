@@ -101,7 +101,7 @@ def notify_osx_call(title, message, sound, fallback):
     try:
         assert(Options.terminal_notifier is not None and exists(Options.terminal_notifier))
         # Show Notification here
-        params = [Options.terminal_notifier, "-title", Options.app_name]
+        params = [Options.terminal_notifier, "-title", Options.app_name, "-timeout", "5"]
         if message is not None:
             params += ["-message", message]
         if title is not None:
