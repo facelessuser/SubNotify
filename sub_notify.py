@@ -112,7 +112,7 @@ def enable_notifications(notice=False):
 
 
 def get_icon_files():
-    """Get icon files"""
+    """Get icon files."""
 
     platform = sublime.platform()
     settings = get_settings()
