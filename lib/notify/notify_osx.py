@@ -106,14 +106,11 @@ def notify_osx_call(title, message, sound, fallback):
             params += ["-message", message]
         if title is not None:
             params += ["-subtitle", title]
-        if Options.icon is not None:
-            params += ['-appIcon', Options.icon]
-        # if Options.sender is not None:
-        #     params += ["-sender", Options.sender]
-        #     params += ["-activate", Options.sender]
+        if Options.sender is not None:
+            params += ["-sender", Options.sender]
         if sound:
             params += ["-sound", "Glass"]
-        subprocess.call(params)
+        subprocess.Popen(params)
 
         # if sound:
         #     # Play sound if desired
