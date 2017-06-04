@@ -1,3 +1,10 @@
+# SubNotify 1.4.2
+
+> Released June 4, 2017
+
+- **FIX**: Use official ST icon for messages in Linux and Growl.
+- **FIX**: Fix blocking issue with `terminal-notifier`.
+
 # SubNotify 1.4.1
 
 > Released June 2, 2017
