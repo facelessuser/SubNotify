@@ -115,7 +115,7 @@ def get_icon_files():
     """Get icon files."""
 
     settings = get_settings()
-    png_name = 'SublimeText@2x.png' if settings.get('large_icons',True) else 'SublimeText.png'
+    png_name = 'SublimeText@2x.png' if settings.get('large_icons', True) else 'SublimeText.png'
     graphics = os.path.join(sublime.packages_path(), "SubNotify", "graphics")
     png_path = os.path.join(graphics, png_name)
     ico_path = os.path.join(graphics, "SublimeBubble.ico")
