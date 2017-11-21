@@ -28,5 +28,5 @@ sees the notification.
 
 > Released Dec 27, 2016
 
-- **NEW**: Move gntp to external dependecy. [#5](https://github.com/facelessuser/SubNotify/issues/5).
+- **NEW**: Move gntp to external dependecy (#5).
 - **NEW**: Add support commands such as changelog etc.
