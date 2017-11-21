@@ -1,3 +1,9 @@
+# SubNotify 1.4.3
+
+> Released Nov 20, 2017
+
+- **FIX**: Update dependencies.
+
 # SubNotify 1.4.2
 
 > Released June 4, 2017
