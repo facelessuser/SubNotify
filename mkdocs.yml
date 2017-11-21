@@ -1,7 +1,24 @@
 site_name: SubNotify Documentation
+site_url: https://facelessuser.github.io/SubNotify
 repo_url: https://github.com/facelessuser/SubNotify
+edit_uri: tree/master/docs/src/markdown
 site_description: System notifications for Sublime Text.
-copyright: Copyright &copy; 2013 - 2016 <a href="https://github.com/facelessuser">Isaac Muse</a>
+copyright: |
+  Copyright &copy; 2013 - 2017 <a href="https://github.com/facelessuser">Isaac Muse</a>
+  <br><span class="md-footer-custom-text">emoji provided free by </span><a href="http://www.emojione.com">EmojiOne</a>
+
+docs_dir: docs/src/markdown
+theme:
+  name: material
+  custom_dir: docs/theme
+  palette:
+    primary: blue
+    accent: blue
+  logo:
+    icon: description
+  font:
+    text: Roboto
+    code: Roboto Mono
 
 pages:
   - About SubNotify: index.md
@@ -10,14 +27,10 @@ pages:
   - Contributing &amp; Support: contributing.md
   - License: license.md
 
-theme: material
-docs_dir: docs/src/markdown
-theme_dir: docs/theme
-
 markdown_extensions:
   - markdown.extensions.toc:
       slugify: !!python/name:pymdownx.slugs.uslugify
-      permalink: 
+      permalink: "\ue157"
   - markdown.extensions.admonition:
   - markdown.extensions.smarty:
       smart_quotes: false
@@ -38,7 +51,9 @@ markdown_extensions:
   - pymdownx.inlinehilite:
   - pymdownx.magiclink:
       repo_url_shortener: true
-      base_repo_url: https://github.com/facelessuser/SubNotify
+      repo_url_shorthand: true
+      user: facelessuser
+      repo: SubNotify
   - pymdownx.tilde:
   - pymdownx.caret:
   - pymdownx.smartsymbols:
@@ -55,16 +70,10 @@ markdown_extensions:
   - pymdownx.snippets:
       base_path: docs/src/markdown/_snippets
   - pymdownx.keys:
-      separator: ＋
+      separator: "\uff0b"
   - pymdownx.details:
 
 extra:
-  palette:
-    primary: blue
-    accent: blue
-  font:
-    text: Roboto
-    code: Roboto Mono
   social:
     - type: github
       link: https://github.com/facelessuser
