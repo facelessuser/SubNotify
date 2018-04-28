@@ -38,6 +38,7 @@ WM_USER = 1024
 NIM_ADD = 0
 NIM_MODIFY = 1
 NIM_DELETE = 2
+NIM_SETVERSION = 4
 NIF_ICON = 2
 NIF_MESSAGE = 1
 NIF_TIP = 4
@@ -299,10 +300,11 @@ class WindowsNotify(object):
             tres.szTip = self.app_name[:128]
             tres.uVersion = 3 if self.is_xp else 4
             ctypes.windll.shell32.Shell_NotifyIconW(NIM_ADD, ctypes.byref(tres))
-            ctypes.windll.shell32.Shell_NotifyIconW(0x4, ctypes.byref(tres))
+            ctypes.windll.shell32.Shell_NotifyIconW(NIM_SETVERSION , ctypes.byref(tres))
             ctypes.windll.shell32.Shell_NotifyIconW(NIM_MODIFY, ctypes.byref(res))
 
         self.visible = True
+        self.hide_icon()
 
     def hide_icon(self):
         """Hide icon."""
@@ -316,6 +318,7 @@ class WindowsNotify(object):
             res.uVersion = 3 if self.is_xp else 4
 
             ctypes.windll.shell32.Shell_NotifyIconW(NIM_DELETE, ctypes.byref(res))
+            ctypes.windll.user32.UpdateWindow(self.hwnd)
         self.visible = False
 
     def OnDestroy(self, hwnd, msg, wparam, lparam):

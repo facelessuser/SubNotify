@@ -109,6 +109,8 @@ def send_notify(title, message, sound, level):
 def setup_notifications(app_name, png=None, icon=None, term_notify=(None, None)):
     """Setup notifications for all platforms."""
 
+    destroy_notifications()
+
     if icon is not None and isinstance(icon, binary_type):
         icon = icon.decode('utf-8')
 
