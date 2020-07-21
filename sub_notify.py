@@ -125,7 +125,8 @@ def get_icon_files():
     png_name = 'SublimeText@2x.png' if settings.get('large_icons', True) else 'SublimeText.png'
     graphics = os.path.join(sublime.packages_path(), "SubNotify", "graphics")
     png = os.path.join(graphics, png_name)
-    icon = os.path.join(graphics, "SublimeBubble.ico")
+    icon = os.path.join(graphics, "SublimeText.ico")
+    icns = None
     if notify._PLATFORM == "macos":
         icns = os.path.join(
             os.path.dirname(sublime.executable_path()), "..", "Resources", "Sublime Text.icns"
