@@ -4,9 +4,9 @@
 
     // terminal-notifier path for Notification Center
     // Internal default when this is not defined is:
-    // /Library/Ruby/Gems/2.0.0/gems/terminal-notifier-1.5.1/bin/terminal-notifier
+    // /usr/local/bin/terminal-notifier
     // This assumes installed with gem
-    // "terminal_notifier_path": "/Library/Ruby/Gems/2.0.0/gems/terminal-notifier-1.5.1/bin/terminal-notifier"
+    // "terminal_notifier_path": "/usr/local/bin/terminal-notifier"
 
     // Debug
     "debug": false

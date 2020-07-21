@@ -9,6 +9,14 @@ import sublime
 import sublime_plugin
 from .lib import notify
 
+LINUX_PLAYERS = ["paplay", "aplay", "play"]
+NOTIFY_EXT = {
+    "afplay": ['.wav', '.mp3', '.aiff'],
+    "windows": ['.wav'],
+    "paplay": ['.wav', '.mp3', '.ogg'],
+    "aplay": ['.wav', '.mp3'],
+    "play": ['.wav', '.mp3'],
+}
 PLUGIN_SETTINGS = "sub_notify.sublime-settings"
 SUB_NOTIFY_READY = False
 
@@ -94,7 +102,6 @@ def enable_notifications(notice=False):
     """Enable notifications."""
 
     settings = get_settings()
-    notify.enable_growl(settings.get("enable_growl", False))
 
     # Setup reload
     settings.clear_on_change('reload')
@@ -117,10 +124,51 @@ def get_icon_files():
     settings = get_settings()
     png_name = 'SublimeText@2x.png' if settings.get('large_icons', True) else 'SublimeText.png'
     graphics = os.path.join(sublime.packages_path(), "SubNotify", "graphics")
-    png_path = os.path.join(graphics, png_name)
-    ico_path = os.path.join(graphics, "SublimeBubble.ico")
+    png = os.path.join(graphics, png_name)
+    icon = os.path.join(graphics, "SublimeBubble.ico")
+    if notify._PLATFORM == "macos":
+        icns = os.path.join(
+            os.path.dirname(sublime.executable_path()), "..", "Resources", "Sublime Text.icns"
+        )
+        if not os.path.exists(icns):
+            icns = None
 
-    return png_path, ico_path
+    if not os.path.exists(png):
+        png = None
+
+    if not os.path.exists(icon):
+        icon = None
+
+    return png, icon, icns
+
+
+def get_sound_settings():
+    """Get sound settings."""
+
+    if notify._PLATFORM == "windows":
+        player = 'windows'
+        audio = get_settings().get('windows_audio', 'C:/Windows/Media/notify.wav')
+        if not audio or not os.path.exists(audio) or os.path.splitext(audio)[1].lower() not in NOTIFY_EXT[player]:
+            audio = None
+    elif notify._PLATFORM == "macos":
+        player = 'afplay'
+        audio = get_settings().get('macos_audio', '/System/Library/Sounds/Glass.aiff')
+        if not audio or not os.path.exists(audio) or os.path.splitext(audio)[1].lower() not in NOTIFY_EXT[player]:
+            audio = None
+    else:
+        player = get_settings().get('linux_audio_player', None)
+        if not player or not os.path.exists(player) or os.path.basename(player) not in LINUX_PLAYERS:
+            player = None
+        player_key = os.path.basename(player) if player else None
+        audio = get_settings().get('linux_audio', None)
+        if (
+            not player_key or
+            not audio or
+            not os.path.exists(audio) or
+            os.path.splitext(audio)[1].lower() not in NOTIFY_EXT[player_key]
+        ):
+            audio = None
+    return player, audio
 
 
 def plugin_loaded():
@@ -129,20 +177,36 @@ def plugin_loaded():
     global SUB_NOTIFY_READY
 
     # Create icon folder for systems that need a icon from path
-    png_path, ico_path = get_icon_files()
+    png, icon, icns = get_icon_files()
 
-    # Setup Notify
+    if notify._PLATFORM == "windows":
+        img = icon
+    elif notify._PLATFORM == "macos":
+        img = icns
+    else:
+        img = png
+
+    player, audio = get_sound_settings()
+
+    # Set up notifications
+    notifier = get_settings().get(
+        "terminal_notifier_path",
+        "/usr/local/bin/terminal-notifier"
+    )
+    if (
+        os.path.isdir(notifier) and
+        notifier.endswith('.app') and
+        os.path.exists(os.path.join(notifier, 'Contents/MacOS/terminal-notifier'))
+    ):
+        notifier = os.path.join(notifier, 'Contents/MacOS/terminal-notifier')
+
     notify.setup_notifications(
         "Sublime Text",
-        png_path,
-        ico_path,
-        (
-            get_settings().get(
-                "terminal_notifier_path",
-                "/Library/Ruby/Gems/2.0.0/gems/terminal-notifier-1.5.1/bin/terminal-notifier"
-            ),
-            "com.sublimetext.3"
-        )
+        img,
+        term_notify=notifier,
+        sender=None,
+        sound=audio,
+        sound_player=player
     )
 
     # Try to enable notification systems
