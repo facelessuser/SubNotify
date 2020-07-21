@@ -7,7 +7,7 @@ License: MIT
 import os
 import sublime
 import sublime_plugin
-from SubNotify.lib import notify
+from .lib import notify
 
 PLUGIN_SETTINGS = "sub_notify.sublime-settings"
 SUB_NOTIFY_READY = False
@@ -148,7 +148,7 @@ def plugin_loaded():
     # Try to enable notification systems
     enable_notifications()
 
-    # Annouce that subnotify is ready
+    # Announce that SubNotify is ready
     SUB_NOTIFY_READY = True
     sublime.run_command("sub_notify_is_ready")
 

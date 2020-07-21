@@ -8,8 +8,6 @@ from __future__ import unicode_literals
 import subprocess
 import traceback
 from os.path import exists
-# import ctypes
-# import ctypes.util
 import sys
 
 __all__ = ("get_notify", "alert", "setup", "destroy")
@@ -20,36 +18,6 @@ if PY3:
     binary_type = bytes  # noqa
 else:
     binary_type = str
-
-# appkit = ctypes.cdll.LoadLibrary(ctypes.util.find_library('AppKit'))
-# cf = ctypes.cdll.LoadLibrary(ctypes.util.find_library('CoreFoundation'))
-# objc = ctypes.cdll.LoadLibrary(ctypes.util.find_library('objc'))
-
-# kCFStringEncodingUTF8 = 0x08000100
-
-# cf.CFStringCreateWithCString.restype = ctypes.c_void_p
-# cf.CFStringCreateWithCString.argtypes = [ctypes.c_void_p, ctypes.c_char_p, ctypes.c_uint32]
-
-# objc.objc_getClass.restype = ctypes.c_void_p
-# objc.sel_registerName.restype = ctypes.c_void_p
-# objc.objc_msgSend.restype = ctypes.c_void_p
-# objc.objc_msgSend.argtypes = [ctypes.c_void_p, ctypes.c_void_p]
-
-# NSSound = ctypes.c_void_p(objc.objc_getClass('NSSound'))
-# NSAutoreleasePool = ctypes.c_void_p(objc.objc_getClass('NSAutoreleasePool'))
-
-
-# def _nsstring(string):
-#     """Return an NSString object."""
-
-#     return ctypes.c_void_p(cf.CFStringCreateWithCString(None, string.encode('utf8'), kCFStringEncodingUTF8))
-
-
-# def _callmethod(obj, method, *args, **kwargs):
-#     """ObjC method call."""
-
-#     cast_return = kwargs.get("cast_return", ctypes.c_void_p)
-#     return cast_return(objc.objc_msgSend(obj, objc.sel_registerName(method), *args))
 
 
 class Options(object):
@@ -74,23 +42,16 @@ class Options(object):
 def alert(sound=None):
     """Play an alert sound for the OS."""
 
-    # ObjC wrapper works fine outside of sublime, but not in
+    # `ObjC` wrapper works fine outside of sublime, but not in
     # Resort to afplay as workaround
     subprocess.call(["afplay", "/System/Library/Sounds/Glass.aiff"])
-
-    # pool = _callmethod(_callmethod(NSAutoreleasePool, "alloc"), "init")
-    # snd = _nsstring(sound if sound is not None else "Glass")
-    # soundobj = _callmethod(NSSound, "soundNamed:", snd)
-    # _callmethod(soundobj, "play")
-    # _callmethod(pool, "drain")
-    # del pool
 
 
 @staticmethod
 def notify_osx_fallback(title, message, sound, fallback):
     """OSX notifications fallback (just sound)."""
 
-    # Fallback to wxpython notification
+    # Fallback to `wxpython` notification
     fallback(title, message, sound)
 
 
