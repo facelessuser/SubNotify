@@ -202,7 +202,7 @@ def plugin_loaded():
         notifier = os.path.join(notifier, 'Contents/MacOS/terminal-notifier')
 
     notify.setup_notifications(
-        "Sublime Text",
+        "Sublime Text (SubNotify)",
         img,
         term_notify=notifier,
         sender=None,
