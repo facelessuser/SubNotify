@@ -9,13 +9,10 @@ In order to get started, there is some setup.  Follow the links below:
 
 - Windows
     - [Native Windows popups](http://facelessuser.github.io/SubNotify/usage/#windows-taskbar-notifications).
-    - [Growl](http://facelessuser.github.io/SubNotify/usage/#using-growl).
 - Linux
     - [Ubuntu OSD popups](http://facelessuser.github.io/SubNotify/usage/#ubuntu-osd)
-    - [Growl for all Linux distros](http://facelessuser.github.io/SubNotify/usage/#using-growl).
 - Mac
     - [Notification Center](http://facelessuser.github.io/SubNotify/usage/#mac-notification-center).
-    - [Growl](http://facelessuser.github.io/SubNotify/usage/#using-growl).
 
 When you are all setup, you can run the test command to see your popup.  The test command is found in the menu:  
 `Preferences->Package Settings->SubNotify->Test SubNotify`.

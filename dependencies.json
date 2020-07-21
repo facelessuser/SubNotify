@@ -1,15 +1,11 @@
 {
     "*": {
-        ">=3000": [
-            "gntp"
-        ],
         ">=3124": [
             "pygments",
             "python-markdown",
             "mdpopups",
             "python-jinja2",
             "markupsafe",
-            "gntp",
             "pyyaml",
             "pymdownx"
         ]

@@ -157,7 +157,7 @@ def get_sound_settings():
         if not audio or not os.path.exists(audio) or os.path.splitext(audio)[1].lower() not in NOTIFY_EXT[player]:
             audio = None
     else:
-        player = get_settings().get('linux_audio_player', None)
+        player = get_settings().get('linux_audio_player', 'paplay')
         if not player or not os.path.exists(player) or os.path.basename(player) not in LINUX_PLAYERS:
             player = None
         player_key = os.path.basename(player) if player else None

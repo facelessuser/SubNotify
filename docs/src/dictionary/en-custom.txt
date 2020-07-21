@@ -11,15 +11,13 @@ OSD
 OSX
 PyMdown
 SubNotify
-SubNotify
-SubNotify
-SubNotify
 Taskbar
 Twemoji
 boolean
 builtins
 changelog
 dev
+distro
 docstrings
 ebeweber
 facelessuser

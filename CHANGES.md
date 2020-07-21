@@ -1,36 +1,36 @@
-# SubNotify 1.4.4
+## SubNotify
+
+## 1.5.0
+
+- **NEW**: Drop Growl support.
+- **NEW**: Allow configuring of default sound and audio player for Linux sound.
+- **NEW**: Ensure all messages use Sublime Text's icon.
+- **NEW**: Rework notification handling on Windows.
+- **NEW**: Change default location for the `terminal-notifier` option.
+
+## 1.4.4
 
 - **FIX**: Cleanup on reload and delete task icon on notify.
 
-# SubNotify 1.4.3
-
-Released Nov 20, 2017
+## 1.4.3
 
 - **FIX**: Update dependencies.
 
-# SubNotify 1.4.2
-
-Released June 4, 2017
+## 1.4.2
 
 - **FIX**: Use official ST icon for messages in Linux and Growl.
 - **FIX**: Fix blocking issue with `terminal-notifier`.
 
-# SubNotify 1.4.1
-
-> Released June 2, 2017
+## 1.4.1
 
 - **NEW**: Provide workaround for terminal-notifier not physically showing a popup even though notification center
 sees the notification.
 
-# SubNotify 1.4.0
-
-Released May 27, 2017
+## 1.4.0
 
 - **NEW**: Restrict phantoms to 3124+.
 
-# SubNotify 1.3.0
-
-Released Dec 27, 2016
+## 1.3.0
 
 - **NEW**: Move gntp to external dependecy (#5).
 - **NEW**: Add support commands such as changelog etc.
