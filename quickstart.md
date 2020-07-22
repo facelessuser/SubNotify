@@ -1,6 +1,7 @@
 # Getting Started
 
-![examples](res://Packages/SubNotify/docs/images/Examples.png){: width=373px, height=500px }
+![Example-macOS](res://Packages/SubNotify/docs/src/markdown/images/example-macos.png){: width="380px" height="102px"}  
+![Example-Windows](res://Packages/SubNotify/docs/src/markdown/images/example-win.png){: width="302" height="131"}
 
 SubNotify is a plugin that can direct messages to system popups instead of having to resort to Sublime message dialogs  
 or status bar messages.  SubNotify works in Windows, Linux, and Mac.
@@ -9,13 +10,10 @@ In order to get started, there is some setup.  Follow the links below:
 
 - Windows
     - [Native Windows popups](http://facelessuser.github.io/SubNotify/usage/#windows-taskbar-notifications).
-    - [Growl](http://facelessuser.github.io/SubNotify/usage/#using-growl).
 - Linux
     - [Ubuntu OSD popups](http://facelessuser.github.io/SubNotify/usage/#ubuntu-osd)
-    - [Growl for all Linux distros](http://facelessuser.github.io/SubNotify/usage/#using-growl).
 - Mac
     - [Notification Center](http://facelessuser.github.io/SubNotify/usage/#mac-notification-center).
-    - [Growl](http://facelessuser.github.io/SubNotify/usage/#using-growl).
 
 When you are all setup, you can run the test command to see your popup.  The test command is found in the menu:  
 `Preferences->Package Settings->SubNotify->Test SubNotify`.

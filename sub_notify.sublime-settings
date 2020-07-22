@@ -4,9 +4,23 @@
 
     // terminal-notifier path for Notification Center
     // Internal default when this is not defined is:
-    // /Library/Ruby/Gems/2.0.0/gems/terminal-notifier-1.5.1/bin/terminal-notifier
+    // /usr/local/bin/terminal-notifier
     // This assumes installed with gem
-    // "terminal_notifier_path": "/Library/Ruby/Gems/2.0.0/gems/terminal-notifier-1.5.1/bin/terminal-notifier"
+    "terminal_notifier_path": "/usr/local/bin/terminal-notifier",
+
+    // Default sound. Must be a .wav file.
+    "windows_audio": "C:/Windows/Media/notify.wav",
+
+    // Default sound. Must be a .wav, .mp3, or .aiff file.
+    "macos_audio": "/System/Library/Sounds/Glass.aiff",
+
+    // Default audio player. Must be paplay, aplay, or play.
+    "linux_audio_player": "paplay",
+    // Default sound. Accepted file types are dependant on the player:
+    // - paplay: .wav, .mp3, or .ogg
+    // - aplay: .wav or .mp3
+    // - play:  .wav or .mp3
+    "linux_audio": null,
 
     // Debug
     "debug": false

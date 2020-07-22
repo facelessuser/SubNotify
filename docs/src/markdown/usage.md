@@ -26,9 +26,14 @@ sub_notify
 
 ## Tips and Tricks for Developers
 
-Often when I use SubNotify with a plugin, I make its use optional.  Depending on the situation, you can have notifications fall back to either status bar notification or a Sublime Text dialog, but regardless of the fallback option, the approach is the same.
+When using in a plugin, it is recommended to make SubNotify usage optional. Also, it is recommended to make sound
+optional as well.
 
-I usually start by first creating a dummy Notify object for when SubNotify is not available.  This way I can reference the same methods to check for availability regardless of whether SubNotify is installed or not.
+Depending on the situation, you can have notifications fall back to either status bar notification or a Sublime Text
+dialog, but regardless of the fallback option, the approach is the same.
+
+You can start by first creating a dummy Notify object for when SubNotify is not available.  This way you can reference
+the same methods to check for availability regardless of whether SubNotify is installed or not.
 
 ```python
 import sublime
@@ -45,7 +50,9 @@ except Exception:
             return False
 ```
 
-Then I create common notification methods that call either the SubNotify command (if enabled) or the fallback.  Notice that for the given plugin I check the users preference via that plugin's settings file and check if SubNotify is ready (in the case it is not installed, the dummy object will return `False`).
+Then you can create common notification methods that call either the SubNotify command (if enabled) or the fallback.
+Notice that for the given plugin, you can check the users preference via that plugin's settings file and check if
+SubNotify is ready (in the case it is not installed, the dummy object will return `False`).
 
 ```python
 def notify(msg):
@@ -70,45 +77,45 @@ def error(msg):
 
 That's it.  There are a number of approaches you can take.  This is just one.
 
-
-## Using Growl
-
-To enable growl, first make sure Growl is installed on your system:
-
-- Growl support for macOS: http://growl.info/.
-- Growl support for Windows: http://www.growlforwindows.com/gfw/.
-- Growl support for Linux: http://mattn.github.io/growl-for-linux/.
-
-Next, in the settings file, enable the following setting:
-
-```js
-    // Attempt to enable growl if available
-    "enable_growl": true,
-```
-
 ## Windows Taskbar Notifications
 
-No additional setup is needed.  Just make sure Growl is disabled in SubNotify via the settings file: `sub_notify.sublime-settings`.
+![Example Windows](images/example-win.png)
+
+If you'd like to change the sound used, you can modify it via the following setting:
 
 ```js
-    // Attempt to enable growl if available
-    "enable_growl": false,
+    // Default sound. Must be a `.wav` file.
+    "windows_audio": "C:/Windows/Media/notify.wav",
 ```
 
 ## Ubuntu OSD
 
-Ensure you have `notify-send` installed on your system.  It should be accessible via the command line.  Make sure Growl is disabled in SubNotify via the settings file: `sub_notify.sublime-settings`.
+Ensure you have `notify-send` installed on your system.  It should be accessible via the command line.
+
+If you'd like to change/configure the sound used, you can modify it via the following settings:
 
 ```js
-    // Attempt to enable growl if available
-    "enable_growl": false,
+    // Default audio player. Must be paplay, aplay, or play.
+    "linux_audio_player": "paplay",
+    // Default sound. Accepted file types are dependant on the player:
+    // - paplay: .wav, .mp3, or .ogg
+    // - aplay: .wav or .mp3
+    // - play:  .wav or .mp3
+    "linux_audio": null,
 ```
+
+By default, there is no audio file defined as distro audio could differ.
 
 ## Mac Notification Center
 
-Ensure you have [terminal-notifier][terminal-notifier] installed.  The recommended way is to install via Ruby gem, but there are other ways; see the [repository][terminal-notifier] for more info.
+![Example macOS](images/example-macos.png)
 
-You will have to update the terminal notifier path in the settings file as the internal default is set to the old ruby gem path for the version that was available at the time this documentation was written.  If you choose to install via another method, the path will also be different. The path should be defined as the absolute path to terminal-notifier.
+Ensure you have [terminal-notifier][terminal-notifier] installed.  The recommended way is via [HomeBrew][homebrew],
+but there are other ways; see the [repository][terminal-notifier] for more info.
+
+If necessary, you may have to update the terminal notifier path in the settings file if the internal default does not
+match your own. If you choose to install via another method, the path may be different. The path should be defined as
+the absolute path to terminal-notifier.
 
 ```javascript
     // terminal-notifier path for Notification Center
@@ -118,11 +125,11 @@ You will have to update the terminal notifier path in the settings file as the i
      "terminal_notifier_path": "/Library/Ruby/Gems/2.0.0/gems/terminal-notifier-1.5.1/bin/terminal-notifier"
 ```
 
-Make sure Growl is disabled in SubNotify via the settings file: `sub_notify.sublime-settings`.
+If you'd like to change the sound used, you can modify it via the following setting:
 
 ```js
-    // Attempt to enable growl if available
-    "enable_growl": false,
+    // Default sound. Must be a .wav, .mp3, or .aiff file.
+    "macos_audio": "/System/Library/Sounds/Glass.aiff",
 ```
 
 --8<-- "refs.md"

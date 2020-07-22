@@ -1,4 +1,4 @@
-# SubNotify 1.4.0
+# SubNotify 1.5.0
 
 New release!
 

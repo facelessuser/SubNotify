@@ -7,15 +7,14 @@
 
 Sublime Text notification plugin (Windows|OSX|Linux)
 
-![Examples](docs/src/markdown/images/Examples.png)
+![Example macOS](docs/src/markdown/images/example-macos.png)
+
+![Example Windows](docs/src/markdown/images/example-win.png)
 
 # Features
 
-- Growl support for OSX http://growl.info/.
-- Growl support for Windows http://www.growlforwindows.com/gfw/.
-- Growl support for Linux http://mattn.github.io/growl-for-linux/.
 - Native windows taskbar bubble notifications.
-- OSX Notification Support via `terminal-notifier` https://github.com/alloy/terminal-notifier.
+- OSX Notification Support via `terminal-notifier` https://github.com/julienXX/terminal-notifier.
 - Ubuntu OSD support via `notify-send`.
 
 
@@ -29,11 +28,18 @@ SubNotify is released under the MIT license.
 
 Copyright (c) 2013 - 2020 Isaac Muse <isaacmuse@gmail.com>
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit
+persons to whom the Software is furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 [github-ci-image]: https://github.com/facelessuser/SubNotify/workflows/build/badge.svg?branch=master&event=push
 [github-ci-link]: https://github.com/facelessuser/SubNotify/actions?query=workflow%3Abuild+branch%3Amaster
