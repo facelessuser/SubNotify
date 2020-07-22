@@ -2,6 +2,7 @@ Changelog
 Cmd
 Control's
 Ctrl
+HomeBrew
 JSON
 MERCHANTABILITY
 MacOS
