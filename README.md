@@ -7,7 +7,7 @@
 
 Sublime Text notification plugin (Windows|OSX|Linux)
 
-![Examples](docs/src/markdown/images/Examples.png)
+![Example macOS](docs/src/markdown/images/example-macos.png)
 
 # Features
 

@@ -106,6 +106,8 @@ By default, there is no audio file defined as distro audio could differ.
 
 ## Mac Notification Center
 
+![Example macOS](docs/src/markdown/images/example-macos.png)
+
 Ensure you have [terminal-notifier][terminal-notifier] installed.  The recommended way is via [HomeBrew](https://brew.sh/),
 but there are other ways; see the [repository][terminal-notifier] for more info.
 
