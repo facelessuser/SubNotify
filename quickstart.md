@@ -1,7 +1,7 @@
 # Getting Started
 
-![Example-macOS](res://Packages/SubNotify/docs/src/markdown/images/example-macos.png){: width="500px"}  
-![Example-Windows](res://Packages/SubNotify/docs/src/markdown/images/example-win.png){: width="500px"}
+![Example-macOS](res://Packages/SubNotify/docs/src/markdown/images/example-macos.png){: width="380px" height="102px"}  
+![Example-Windows](res://Packages/SubNotify/docs/src/markdown/images/example-win.png){: width="302" height="131"}
 
 SubNotify is a plugin that can direct messages to system popups instead of having to resort to Sublime message dialogs  
 or status bar messages.  SubNotify works in Windows, Linux, and Mac.
