@@ -6,6 +6,8 @@ Sublime Text notification plugin for (Windows|macOS|Linux).
 
 ![Example macOS](docs/src/markdown/images/example-macos.png)
 
+![Example Windows](docs/src/markdown/images/example-win.png)
+
 ## Features
 
 - Native windows taskbar bubble notifications.

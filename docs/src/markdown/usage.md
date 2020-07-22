@@ -79,6 +79,8 @@ That's it.  There are a number of approaches you can take.  This is just one.
 
 ## Windows Taskbar Notifications
 
+![Example Windows](docs/src/markdown/images/example-win.png)
+
 If you'd like to change the sound used, you can modify it via the following setting:
 
 ```js
