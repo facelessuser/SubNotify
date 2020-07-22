@@ -88,7 +88,7 @@ If you'd like to change the sound used, you can modify it via the following sett
     "windows_audio": "C:/Windows/Media/notify.wav",
 ```
 
-## Ubuntu OSD
+## Linux
 
 Ensure you have `notify-send` installed on your system.  It should be accessible via the command line.
 
