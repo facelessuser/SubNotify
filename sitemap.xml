@@ -1,44 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
-    
-    <url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url>
      <loc>https://facelessuser.github.io/SubNotify/</loc>
-     <lastmod>2018-04-28</lastmod>
+     <lastmod>2020-07-28</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    
-
-    
-    <url>
+    </url><url>
      <loc>https://facelessuser.github.io/SubNotify/installation/</loc>
-     <lastmod>2018-04-28</lastmod>
+     <lastmod>2020-07-28</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    
-
-    
-    <url>
+    </url><url>
      <loc>https://facelessuser.github.io/SubNotify/usage/</loc>
-     <lastmod>2018-04-28</lastmod>
+     <lastmod>2020-07-28</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    
-
-    
-    <url>
+    </url><url>
      <loc>https://facelessuser.github.io/SubNotify/contributing/</loc>
-     <lastmod>2018-04-28</lastmod>
+     <lastmod>2020-07-28</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    
-
-    
-    <url>
+    </url><url>
      <loc>https://facelessuser.github.io/SubNotify/license/</loc>
-     <lastmod>2018-04-28</lastmod>
+     <lastmod>2020-07-28</lastmod>
      <changefreq>daily</changefreq>
     </url>
-    
-
 </urlset>
