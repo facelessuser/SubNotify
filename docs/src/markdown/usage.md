@@ -90,6 +90,8 @@ If you'd like to change the sound used, you can modify it via the following sett
 
 ## Linux
 
+![Example Linux](images/example-linux.png)
+
 Ensure you have `notify-send` installed on your system.  It should be accessible via the command line.
 
 If you'd like to change/configure the sound used, you can modify it via the following settings:
