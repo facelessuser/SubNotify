@@ -3,6 +3,7 @@
 ## 1.5.0
 
 - **NEW**: Drop Growl support.
+- **NEW**: No longer requires the `gntp` dependency.
 - **NEW**: Allow configuring of default sound and audio player for Linux sound.
 - **NEW**: Ensure all messages use Sublime Text's icon.
 - **NEW**: Rework notification handling on Windows.
