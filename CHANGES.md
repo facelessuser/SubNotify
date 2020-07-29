@@ -1,5 +1,10 @@
 ## SubNotify
 
+## 1.5.1
+
+- **FIX**: Fix Linux audio not playing.
+- **FIX**: Notification setup not reloading on settings change.
+
 ## 1.5.0
 
 - **NEW**: Drop Growl support.

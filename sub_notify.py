@@ -8,6 +8,7 @@ import os
 import sublime
 import sublime_plugin
 from .lib import notify
+from .lib.notify.util import which
 
 LINUX_PLAYERS = ["paplay", "aplay", "play"]
 NOTIFY_EXT = {
@@ -101,6 +102,49 @@ class SubNotifyIsReadyCommand(sublime_plugin.ApplicationCommand):
 def enable_notifications(notice=False):
     """Enable notifications."""
 
+    global SUB_NOTIFY_READY
+
+    SUB_NOTIFY_READY = False
+
+    notify.destroy_notifications()
+
+    # Create icon folder for systems that need a icon from path
+    png, icon, icns = get_icon_files()
+
+    if notify._PLATFORM == "windows":
+        img = icon
+    elif notify._PLATFORM == "macos":
+        img = icns
+    else:
+        img = png
+
+    player, audio = get_sound_settings()
+
+    # Set up notifications
+    notifier = get_settings().get(
+        "terminal_notifier_path",
+        "/usr/local/bin/terminal-notifier"
+    )
+    if (
+        os.path.isdir(notifier) and
+        notifier.endswith('.app') and
+        os.path.exists(os.path.join(notifier, 'Contents/MacOS/terminal-notifier'))
+    ):
+        notifier = os.path.join(notifier, 'Contents/MacOS/terminal-notifier')
+
+    notify.setup_notifications(
+        "Sublime Text (SubNotify)",
+        img,
+        term_notify=notifier,
+        sender=None,
+        sound=audio,
+        sound_player=player
+    )
+
+    # Announce that SubNotify is ready
+    SUB_NOTIFY_READY = True
+    sublime.run_command("sub_notify_is_ready")
+
     settings = get_settings()
 
     # Setup reload
@@ -158,7 +202,7 @@ def get_sound_settings():
             audio = None
     else:
         player = get_settings().get('linux_audio_player', 'paplay')
-        if not player or not os.path.exists(player) or os.path.basename(player) not in LINUX_PLAYERS:
+        if not player or not which(player) or player not in LINUX_PLAYERS:
             player = None
         player_key = os.path.basename(player) if player else None
         audio = get_settings().get('linux_audio', None)
@@ -175,47 +219,8 @@ def get_sound_settings():
 def plugin_loaded():
     """Setup plugin."""
 
-    global SUB_NOTIFY_READY
-
-    # Create icon folder for systems that need a icon from path
-    png, icon, icns = get_icon_files()
-
-    if notify._PLATFORM == "windows":
-        img = icon
-    elif notify._PLATFORM == "macos":
-        img = icns
-    else:
-        img = png
-
-    player, audio = get_sound_settings()
-
-    # Set up notifications
-    notifier = get_settings().get(
-        "terminal_notifier_path",
-        "/usr/local/bin/terminal-notifier"
-    )
-    if (
-        os.path.isdir(notifier) and
-        notifier.endswith('.app') and
-        os.path.exists(os.path.join(notifier, 'Contents/MacOS/terminal-notifier'))
-    ):
-        notifier = os.path.join(notifier, 'Contents/MacOS/terminal-notifier')
-
-    notify.setup_notifications(
-        "Sublime Text (SubNotify)",
-        img,
-        term_notify=notifier,
-        sender=None,
-        sound=audio,
-        sound_player=player
-    )
-
     # Try to enable notification systems
     enable_notifications()
-
-    # Announce that SubNotify is ready
-    SUB_NOTIFY_READY = True
-    sublime.run_command("sub_notify_is_ready")
 
     if get_settings().get("debug", False):
         sublime.set_timeout(lambda: sublime.run_command("sub_notify_test"), 3000)
@@ -224,4 +229,6 @@ def plugin_loaded():
 def plugin_unloaded():
     """Tear down plugin."""
 
+    global SUB_NOTIFY_READY
+    SUB_NOTIFY_READY = False
     notify.destroy_notifications()
