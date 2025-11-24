@@ -5,7 +5,7 @@ import textwrap
 import webbrowser
 import re
 
-__version__ = "1.5.1"
+__version__ = "1.5.2"
 __pc_name__ = 'SubNotify'
 
 CSS = '''
@@ -17,31 +17,6 @@ div.sub-notify { padding: 10px; margin: 0; }
 .sub-notify blockquote { {{'.comment'|css}} }
 .sub-notify a { text-decoration: none; }
 '''
-
-frontmatter = {
-    "markdown_extensions": [
-        "markdown.extensions.admonition",
-        "markdown.extensions.attr_list",
-        "markdown.extensions.def_list",
-        "markdown.extensions.nl2br",
-        # Smart quotes always have corner cases that annoy me, so don't bother with them.
-        {"markdown.extensions.smarty": {"smart_quotes": False}},
-        "pymdownx.betterem",
-        {
-            "pymdownx.magiclink": {
-                "repo_url_shortener": True,
-                "repo_url_shorthand": True,
-                "user": "facelessuser",
-                "repo": "SubNotify"
-            }
-        },
-        "pymdownx.extrarawhtml",
-        "pymdownx.keys",
-        {"pymdownx.escapeall": {"hardbreak": True, "nbsp": True}},
-        # Sublime doesn't support superscript, so no ordinal numbers
-        {"pymdownx.smartsymbols": {"ordinal_numbers": False}}
-    ]
-}
 
 
 def list2string(obj):
@@ -93,30 +68,6 @@ class SubNotifySupportInfoCommand(sublime_plugin.ApplicationCommand):
         except Exception:
             info["mdpopups_version"] = 'Version could not be acquired!'
 
-        try:
-            import gntp
-            info["gntp_version"] = format_version(gntp.version, '__version__')
-        except Exception:
-            info["gntp_version"] = 'Version could not be acquired!'
-
-        try:
-            import markdown
-            info["markdown_version"] = format_version(markdown, 'version')
-        except Exception:
-            info["markdown_version"] = 'Version could not be acquired!'
-
-        try:
-            import jinja2
-            info["jinja_version"] = format_version(jinja2, '__version__')
-        except Exception:
-            info["jinja_version"] = 'Version could not be acquired!'
-
-        try:
-            import pygments
-            info["pygments_version"] = format_version(pygments, '__version__')
-        except Exception:
-            info["pygments_version"] = 'Version could not be acquired!'
-
         msg = textwrap.dedent(
             """\
             - ST ver.: %(version)s
@@ -125,10 +76,6 @@ class SubNotifySupportInfoCommand(sublime_plugin.ApplicationCommand):
             - Plugin ver.: %(plugin_version)s
             - Install via PC: %(pc_install)s
             - mdpopups ver.: %(mdpopups_version)s
-            - gntp ver.: %(gntp_version)s
-            - markdown ver.: %(markdown_version)s
-            - pygments ver.: %(pygments_version)s
-            - jinja2 ver.: %(jinja_version)s
             """ % info
         )
 
@@ -163,11 +110,8 @@ class SubNotifyDocCommand(sublime_plugin.WindowCommand):
 
         try:
             import mdpopups
-            import pymdownx
             has_phantom_support = (mdpopups.version() >= (1, 10, 0)) and (int(sublime.version()) >= 3124)
-            fmatter = mdpopups.format_frontmatter(frontmatter) if pymdownx.version_info[:3] >= (4, 3, 0) else ''
         except Exception:
-            fmatter = ''
             has_phantom_support = False
 
         if not has_phantom_support:
@@ -183,7 +127,7 @@ class SubNotifyDocCommand(sublime_plugin.WindowCommand):
                     view,
                     'quickstart',
                     sublime.Region(0),
-                    fmatter + text,
+                    text,
                     sublime.LAYOUT_INLINE,
                     css=CSS,
                     wrapper_class="sub-notify",
@@ -202,11 +146,8 @@ class SubNotifyChangesCommand(sublime_plugin.WindowCommand):
         """Show the changelog in a new view."""
         try:
             import mdpopups
-            import pymdownx
             has_phantom_support = (mdpopups.version() >= (1, 10, 0)) and (int(sublime.version()) >= 3124)
-            fmatter = mdpopups.format_frontmatter(frontmatter) if pymdownx.version_info[:3] >= (4, 3, 0) else ''
         except Exception:
-            fmatter = ''
             has_phantom_support = False
 
         text = sublime.load_resource('Packages/SubNotify/CHANGES.md')
@@ -219,7 +160,7 @@ class SubNotifyChangesCommand(sublime_plugin.WindowCommand):
                 view,
                 'changelog',
                 sublime.Region(0),
-                fmatter + text,
+                text,
                 sublime.LAYOUT_INLINE,
                 wrapper_class="sub-notify",
                 css=CSS,

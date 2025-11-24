@@ -12,8 +12,8 @@ Sublime Text notification plugin for (Windows|macOS|Linux).
 
 ## Features
 
-- Native windows taskbar bubble notifications.
-- MacOS Notification Support via `terminal-notifier`: https://github.com/julienXX/terminal-notifier.
-- Linux support via `notify-send`.
+-   Native windows taskbar bubble notifications.
+-   MacOS Notification Support via `terminal-notifier`: https://github.com/julienXX/terminal-notifier.
+-   Linux support via `notify-send`.
 
 --8<-- "refs.md"

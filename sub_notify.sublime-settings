@@ -6,7 +6,7 @@
     // Internal default when this is not defined is:
     // /usr/local/bin/terminal-notifier
     // This assumes installed with gem
-    "terminal_notifier_path": "/usr/local/bin/terminal-notifier",
+    "terminal_notifier_path": "/opt/homebrew/bin/terminal-notifier",
 
     // Default sound. Must be a .wav file.
     "windows_audio": "C:/Windows/Media/notify.wav",

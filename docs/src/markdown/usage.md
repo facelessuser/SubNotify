@@ -2,9 +2,10 @@
 
 ## Using SubNotify in a Plugin
 
+/// define
 sub_notify
-: 
-    Command that displays the notification for Sublime Text.
+
+-   Command that displays the notification for Sublime Text.
 
     **Parameters**:
 
@@ -23,6 +24,7 @@ sub_notify
         def run(self):
             sublime.run_command("sub_notify", {"title": "SubNotify", "msg": "Debug test popup!", "sound": False})
     ```
+///
 
 ## Tips and Tricks for Developers
 

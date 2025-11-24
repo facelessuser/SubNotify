@@ -11,12 +11,12 @@ or status bar messages.  SubNotify works in Windows, Linux, and Mac.
 
 In order to get started, there is some setup.  Follow the links below:
 
-- Windows
-    - [Native Windows popups](http://facelessuser.github.io/SubNotify/usage/#windows-taskbar-notifications).
-- Linux
+-   Windows
+    -   [Native Windows popups](http://facelessuser.github.io/SubNotify/usage/#windows-taskbar-notifications).
+-   Linux
     - [Ubuntu OSD popups](http://facelessuser.github.io/SubNotify/usage/#ubuntu-osd)
-- Mac
-    - [Notification Center](http://facelessuser.github.io/SubNotify/usage/#mac-notification-center).
+-   Mac
+    -   [Notification Center](http://facelessuser.github.io/SubNotify/usage/#mac-notification-center).
 
 When you are all setup, you can run the test command to see your popup.  The test command is found in the menu:  
 `Preferences->Package Settings->SubNotify->Test SubNotify`.
@@ -28,6 +28,6 @@ To help developers who plan to tap into SubNotify, the documentation provides so
 # I Need Help!
 
 That's okay.  Bugs are sometimes introduced or discovered in existing code.  Sometimes the documentation isn't clear.  
-Support can be found over on the [official repo](https://github.com/facelessuser/SubNotify/issues).  Make sure to first search the documentation and previous issues  
-before opening a new issue.  And when creating a new issue, make sure to fill in the provided issue template.  Please  
-be courteous and kind in your interactions.
+Support can be found over on the [official repo](https://github.com/facelessuser/SubNotify/issues).  Make sure to first  
+search the documentation and previous issues before opening a new issue.  And when creating a new issue, make sure to  
+fill in the provided issue template.  Please be courteous and kind in your interactions.
