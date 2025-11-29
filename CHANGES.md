@@ -1,5 +1,9 @@
 ## SubNotify
 
+## 1.6.0
+
+-   **NEW**: Changes to support Python 3.13 on ST 4201+.
+
 ## 1.5.2
 
 -   **FIX**: Default to homebrew path for `terminal-notifier`.
